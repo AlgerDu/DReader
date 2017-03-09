@@ -2,10 +2,14 @@
   <div class="reader">
     <div class="reader-tool" *ngIf="readerToolShow">
       <div class="reader-tool-top">
-        <button ion-button clear color="light" (click)="navCtrl.pop()"><ion-icon name="arrow-round-back"></ion-icon></button>
+        <button ion-button clear color="light" (click)="navCtrl.pop()">
+          <ion-icon name="arrow-back"></ion-icon>
+          </button>
       </div>
       <div class="reader-tool-bottom">
-
+        <button ion-button clear color="light">
+          <ion-icon name="list"></ion-icon>
+          </button>
       </div>
     </div>
     <div class="reader-context">
