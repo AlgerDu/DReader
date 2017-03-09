@@ -12,6 +12,7 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'reader.html'
 })
 export class ReaderPage {
+  public readerToolShow = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) { }
 
@@ -32,5 +33,9 @@ export class ReaderPage {
         elements[key].style.display = 'flex';
       });
     }
+  }
+
+  toggleReaderTool() {
+    this.readerToolShow = !this.readerToolShow;
   }
 }

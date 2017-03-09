@@ -1,8 +1,8 @@
-<ion-content>
+<ion-content (click)="toggleReaderTool()">
   <div class="reader">
-    <div class="reader-tool">
+    <div class="reader-tool" *ngIf="readerToolShow">
       <div class="reader-tool-top">
-        <button color="dark" round (click)="navCtrl.pop()"><ion-icon name="arrow-round-back"></ion-icon></button>
+        <button ion-button clear color="light" (click)="navCtrl.pop()"><ion-icon name="arrow-round-back"></ion-icon></button>
       </div>
       <div class="reader-tool-bottom">
 
