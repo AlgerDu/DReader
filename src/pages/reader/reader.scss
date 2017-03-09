@@ -1,3 +1,25 @@
 page-reader {
+    .reader{
+        
+    }
 
+    .reader .reader-tool{
+        background-color:#000000;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+        background-color:rgba(0,0,0,0.2); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+        position: fixed;
+    }
+
+    .reader .reader-context{
+        padding:0px 15px 0px 15px;
+    }
+
+    .reader .reader-context .reader-context-h{
+        top:0px;
+        position: fixed;
+    }
+
+    .reader .reader-context .reader-context-text{
+        top:27px;
+        position: absolute;
+    }
 }
