@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { MenuController } from 'ionic-angular';
 
 /*
   Generated class for the Reader page.
@@ -14,7 +15,10 @@ import { NavController, NavParams } from 'ionic-angular';
 export class ReaderPage {
   public readerToolShow = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) { }
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public menuCtrl: MenuController) { }
 
   ionViewDidLoad() {
     let elements = document.querySelectorAll(".tabbar");

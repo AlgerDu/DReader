@@ -7,7 +7,7 @@
           </button>
       </div>
       <div class="reader-tool-bottom">
-        <button ion-button clear color="light">
+        <button ion-button clear color="light" (click)="menuCtrl.open()">
           <ion-icon name="list"></ion-icon>
           </button>
       </div>
@@ -42,4 +42,28 @@
       </div>
     </div>
   </div>
+
+  <ion-menu [content]="content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>目录</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <button ion-item>第一章 黄山真君和九洲一号群</button>
+        <button ion-item>第二章 且待本尊算上一卦</button>
+        <button ion-item>第三章 一张丹方</button>
+        <button ion-item>第四章 Ｈ市三品后天雷劫</button>
+        <button ion-item>第五章 要相信科学！</button>
+        <button ion-item>第六章 铜卦仙师</button>
+        <button ion-item>第七章 被群灭的不良们</button>
+        <button ion-item>第八章 羽柔子和罗信街区</button>
+        <button ion-item>第九章 另一个罗信街区</button>
+        <button ion-item>第十章 压马路小插曲</button>
+        <button ion-item>第十一章 蓦然回首，那人却在，灯火阑珊处</button>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-nav #content></ion-nav>
 </ion-content>
