@@ -5,6 +5,8 @@ import { HomePage } from '../pages/home/home';
 import { ReaderPage } from '../pages/reader/reader';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { BookService } from './service/book.service';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -22,6 +24,9 @@ import { TabsPage } from '../pages/tabs/tabs';
     ReaderPage,
     TabsPage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }]
+  providers: [
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    BookService
+  ]
 })
 export class AppModule { }

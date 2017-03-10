@@ -3,29 +3,33 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MenuController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
-/*
-  Generated class for the Reader page.
+import { BookService } from '../../app/service/book.service';
+import { Book } from '../../app/model';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-reader',
   templateUrl: 'reader.html'
 })
 export class ReaderPage {
   public readerToolShow = false;
+  public book: Book;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public menuCtrl: MenuController,
-    public plt: Platform) {
+    public plt: Platform,
+    private bookService: BookService
+  ) {
+    this.book = this.navParams.get('book');
+
+    if (this.book.chapters == null || this.book.chapters.length == 0) {
+      this.book.chapters = this.bookService.Catalog(this.book);
+    }
 
     this.plt.ready().then(() => {
       this.registerBackButtonAction();//注册返回按键事件
     });
-
   }
 
   ionViewDidLoad() {

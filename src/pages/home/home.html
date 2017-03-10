@@ -5,5 +5,9 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button (click)="ReadBook('2')">修真聊天群</button>
+  <ion-list>
+    <button ion-item *ngFor="let book of books" (click)="ReadBook(book)">
+    {{ book.name }}
+    </button>
+  </ion-list>
 </ion-content>
