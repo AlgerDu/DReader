@@ -57,6 +57,8 @@ export class ReaderPage {
     this.plt.registerBackButtonAction(() => {
       if (this.readerToolShow) {
         this.readerToolShow = !this.readerToolShow;
+      } else if (this.menuCtrl.isOpen) {
+        this.menuCtrl.close();
       } else {
         this.navCtrl.pop();
       }
