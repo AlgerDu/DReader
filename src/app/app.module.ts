@@ -3,6 +3,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ReaderPage } from '../pages/reader/reader';
+import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { BookService } from './service/book.service';
@@ -12,6 +13,7 @@ import { BookService } from './service/book.service';
     MyApp,
     HomePage,
     ReaderPage,
+    AccountPage,
     TabsPage
   ],
   imports: [
@@ -22,6 +24,7 @@ import { BookService } from './service/book.service';
     MyApp,
     HomePage,
     ReaderPage,
+    AccountPage,
     TabsPage
   ],
   providers: [
