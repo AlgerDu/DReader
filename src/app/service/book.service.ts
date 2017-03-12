@@ -32,4 +32,9 @@ export class BookService {
     Catalog(book: Book): Chapter[] {
         return null;
     }
+
+    //更新本地缓存与远程服务器之间的内容
+    Refresh() {
+
+    }
 }

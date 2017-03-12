@@ -5,6 +5,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="RefreshLocalInfo($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉获取最新内容" refreshingSpinner="circles" refreshingText="正在刷新...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
     <ion-item *ngFor="let book of books" (click)="ReadBook(book)">
       <ion-thumbnail item-left>

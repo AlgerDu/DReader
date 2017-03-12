@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Content, Refresher } from 'ionic-angular';
 
 import { ReaderPage } from '../reader/reader'
 
@@ -13,6 +12,8 @@ import { ConfigService } from '../../app/service/config.service';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  @ViewChild(Content) content: Content;
+  @ViewChild(Refresher) refresher: Refresher;
   public books: Book[];
 
   constructor(
@@ -23,7 +24,16 @@ export class HomePage {
     this.books = this.bookService.SheetList();
   }
 
+  ionViewDidEnter() {
+  }
+
   ReadBook(book: Book) {
     this.navCtrl.push(ReaderPage, { book: book });
+  }
+
+  RefreshLocalInfo(refresher) {
+    setTimeout(() => {
+      refresher.complete();
+    }, 2000);
   }
 }
