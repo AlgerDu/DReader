@@ -14,3 +14,11 @@ export class Chapter {
     name: string;
     text: string;
 }
+
+export class Configer {
+    autoRefreshAppOpen: boolean; //app 启动时自动刷新
+
+    constructor() {
+        this.autoRefreshAppOpen = true;
+    }
+}

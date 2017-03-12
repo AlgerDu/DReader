@@ -9,6 +9,7 @@ import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { BookService } from './service/book.service';
+import { ConfigService } from './service/config.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BookService } from './service/book.service';
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    BookService
+    BookService,
+    ConfigService
   ]
 })
 export class AppModule { }

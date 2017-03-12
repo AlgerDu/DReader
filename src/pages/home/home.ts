@@ -6,6 +6,7 @@ import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
 import { Book } from '../../app/model';
+import { ConfigService } from '../../app/service/config.service';
 
 @Component({
   selector: 'page-home',
@@ -16,7 +17,8 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private bookService: BookService
+    private bookService: BookService,
+    private configService: ConfigService
   ) {
     this.books = this.bookService.SheetList();
   }
