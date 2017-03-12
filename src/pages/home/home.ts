@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Content, Refresher, AlertController } from 'ionic-angular';
+import { NavController, Content } from 'ionic-angular';
 
 import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
-import { Book } from '../../app/model';
+import { Book, Configer } from '../../app/model';
 import { ConfigService } from '../../app/service/config.service';
 
 @Component({
@@ -13,7 +13,10 @@ import { ConfigService } from '../../app/service/config.service';
 })
 export class HomePage {
   @ViewChild(Content) content: Content;
-  @ViewChild(Refresher) refresher: Refresher;
+
+  private hasLoaded: boolean = false;
+
+  public configer: Configer;
   public books: Book[];
 
   constructor(
@@ -22,9 +25,10 @@ export class HomePage {
     private configService: ConfigService
   ) {
     this.books = this.bookService.SheetList();
+    this.configer = configService.get();
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
   }
 
   ReadBook(book: Book) {
