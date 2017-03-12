@@ -1,17 +1,19 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>书架</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let book of books" (click)="ReadBook(book)">
+      <ion-thumbnail item-left>
+        <img src="img/thumbnail-totoro.png">
+      </ion-thumbnail>
+      <h2>{{ book.name }}</h2>
+      <p>{{ book.author==null?'未知作者':book.author+' 著' }}</p>
+      <p>已读 {{ book.readingPct}}%</p>
+      <ion-badge item-right color='danger' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
+    </ion-item>
+  </ion-list>
 </ion-content>

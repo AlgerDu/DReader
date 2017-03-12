@@ -1,0 +1,48 @@
+page-reader {
+    ion-menu{
+        position: fixed;
+    }
+
+    .reader{
+        
+    }
+
+    .reader .reader-tool {position: fixed;
+        width: 100%;
+        z-index: 1000;
+        height: 100%;
+    }
+
+    .reader .reader-tool *{
+    }
+
+    .reader .reader-tool .reader-tool-top{
+        background-color:#000000;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+        background-color:rgba(0,0,0,0.6); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+        
+        padding: 5px;
+    }
+
+    .reader .reader-tool .reader-tool-bottom{
+        background-color:#000000;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+        background-color:rgba(0,0,0,0.6); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+        bottom: 0;
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+    }
+
+    .reader .reader-context{
+        padding:0px 15px 0px 15px;
+    }
+
+    .reader .reader-context .reader-context-h{
+        top:0px;
+        position: fixed;
+    }
+
+    .reader .reader-context .reader-context-text{
+        top:27px;
+        position: absolute;
+    }
+}
