@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Content, Refresher } from 'ionic-angular';
+import { NavController, Content, Refresher, AlertController } from 'ionic-angular';
 
 import { ReaderPage } from '../reader/reader'
 
@@ -32,8 +32,9 @@ export class HomePage {
   }
 
   RefreshLocalInfo(refresher) {
-    setTimeout(() => {
-      refresher.complete();
-    }, 2000);
+    this.bookService.Refresh()
+      .then(() => {
+        refresher.complete();
+      });
   }
 }

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+
 import { Book, Chapter } from '../model';
+import { AlertController } from 'ionic-angular';
 
 @Injectable()
 export class BookService {
     private books: Book[];
 
-    constructor() {
+    constructor(
+        public alertCtrl: AlertController
+    ) {
         this.books = [];
 
         let tmp = new Book();
@@ -34,7 +39,9 @@ export class BookService {
     }
 
     //更新本地缓存与远程服务器之间的内容
-    Refresh() {
+    Refresh(): Promise<void> {
+        this.books[0].updateCount = 4;
 
+        return Promise.resolve();
     }
 }
