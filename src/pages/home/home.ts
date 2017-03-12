@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
+
 import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
@@ -15,7 +16,8 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private bookService: BookService) {
+    private bookService: BookService
+  ) {
     this.books = this.bookService.SheetList();
   }
 

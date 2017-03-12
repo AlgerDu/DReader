@@ -23,10 +23,6 @@ export class ReaderPage {
   ) {
     this.book = this.navParams.get('book');
 
-    if (this.book.chapters == null || this.book.chapters.length == 0) {
-      this.book.chapters = this.bookService.Catalog(this.book);
-    }
-
     this.plt.ready().then(() => {
       this.registerBackButtonAction();//注册返回按键事件
     });

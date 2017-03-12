@@ -4,10 +4,16 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-list>
-    <button ion-item *ngFor="let book of books" (click)="ReadBook(book)">
-    {{ book.name }}
-    </button>
+    <ion-item *ngFor="let book of books" (click)="ReadBook(book)">
+      <ion-thumbnail item-left>
+        <img src="img/thumbnail-totoro.png">
+      </ion-thumbnail>
+      <h2>{{ book.name }}</h2>
+      <p>{{ book.author==null?'未知作者':book.author+' 著' }}</p>
+      <p>已读 {{ book.readingPct}}%</p>
+      <ion-badge item-right color='danger' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
+    </ion-item>
   </ion-list>
 </ion-content>
