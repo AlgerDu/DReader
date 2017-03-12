@@ -27,4 +27,8 @@ export class ConfigService {
     save() {
         this.storage.set(this.configerStorageName, this.configer);
     }
+
+    get(): Configer {
+        return this.configer;
+    }
 }
