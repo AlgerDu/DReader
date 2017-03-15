@@ -29,7 +29,10 @@ export class HomePage {
 
     this.events.subscribe('db:ready', (time) => {
       console.log('数据加载完毕，')
-      this.bookService.SheetList().then(books => this.books = books);
+      this.bookService.SheetList().then((books) => {
+        console.log(books);
+        this.books = books;
+      });
     });
   }
 

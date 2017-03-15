@@ -19,15 +19,17 @@ export class BookService {
 
         if (this.plt.is('core')) {
             let books = [
-                { uuid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
-                { uuid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
+                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
+                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
             ];
             return Promise.resolve(books);
         } else {
             return this.dbService.executeSql(
                 'select * from BookShelf as bs, Book as b where accUid = ? and bs.bookUid = b.uid',
                 ['a1']
-            ).then(data => data as Book[]);
+            ).then((data) => {
+                return data as Book[];
+            });
         }
     }
 

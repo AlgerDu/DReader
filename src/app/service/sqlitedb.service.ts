@@ -36,7 +36,15 @@ export class SQLiteDbService {
     }
 
     public executeSql(sql: string, params: any): Promise<any> {
-        return this.db.executeSql(sql, params);
+        return this.db.executeSql(sql, params).then((rs) => {
+            let array: any[] = [];
+            for (let i = 0; i < rs.rows.length; i++) {
+                array.push(rs.rows.item(i));
+            }
+            console.log('sql is ' + sql);
+            console.log('reault : ' + JSON.stringify(array));
+            return array;
+        });
     }
 
     //初始化一个新的数据库
@@ -69,6 +77,8 @@ export class SQLiteDbService {
             this.db.executeSql('INSERT INTO Book VALUES ( ?, ?, ?)', ['b2', '神级英雄', '']);
             this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b1', 90, 3]);
             this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b2', 0, 0]);
+        }).then(() => {
+            this.dbReadyEvent();
         }).catch((error) => {
             console.log(error);
             this.showAlert('添加模拟数据失败：' + error);
