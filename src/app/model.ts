@@ -1,5 +1,5 @@
 export class Book {
-    uuid: string;
+    uid: string;
     name: string;
     local: boolean;
     author: string;
@@ -10,7 +10,7 @@ export class Book {
 }
 
 export class Chapter {
-    uuid: string;
+    uid: string;
     name: string;
     text: string;
 }
