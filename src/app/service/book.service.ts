@@ -23,13 +23,12 @@ export class BookService {
                 { uuid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
             ];
             return Promise.resolve(books);
+        } else {
+            return this.dbService.executeSql(
+                'select * from BookShelf as bs, Book as b where accUid = ? and bs.bookUid = b.uid',
+                ['a1']
+            ).then(data => data as Book[]);
         }
-
-        return Promise.resolve(null);
-        //return this.dbService.executeSql(
-        //    'select * from BookShelf as bs, Book as b where accUid = ? and bs.bookUid = b.uid',
-        //    ['a1']
-        //).then(data => data as Book[]);
     }
 
     //获取一本书的目录信息
