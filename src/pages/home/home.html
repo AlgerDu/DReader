@@ -16,7 +16,8 @@
         <img src="img/thumbnail-totoro.png">
       </ion-thumbnail>
       <h2>{{ book.name }}</h2>
-      <p>{{ book.author==null?'未知作者':book.author+' 著' }}</p>
+      <p *ngIf="book.author != null && book.author.length > 0">{{ book.author+' 著' }}</p>
+      <p *ngIf="book.author == null || book.author.length == 0">{{ '未知作者' }}</p>
       <p>已读 {{ book.readPct}}%</p>
       <ion-badge item-right color='danger' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
     </ion-item>
