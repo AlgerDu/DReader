@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Content } from 'ionic-angular';
+import { NavController, Content, Events } from 'ionic-angular';
 
 import { ReaderPage } from '../reader/reader'
 
@@ -20,15 +20,17 @@ export class HomePage {
   public books: Book[];
 
   constructor(
+    public events: Events,
     public navCtrl: NavController,
     private bookService: BookService,
     private configService: ConfigService
   ) {
     this.configer = configService.get();
-  }
 
-  ionViewWillEnter() {
-    this.bookService.SheetList().then(books => this.books = books);
+    this.events.subscribe('db:ready', (time) => {
+      console.log('数据加载完毕，')
+      this.bookService.SheetList().then(books => this.books = books);
+    });
   }
 
   ReadBook(book: Book) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Platform, AlertController } from 'ionic-angular';
+import { Platform, AlertController, Events } from 'ionic-angular';
 import { SQLite } from "ionic-native";
 
 @Injectable()
@@ -8,14 +8,23 @@ export class SQLiteDbService {
     public isReady: boolean = false;
     public db: SQLite;
     constructor(
-        private alertCtrl: AlertController,
-        platform: Platform
+        platform: Platform,
+        public events: Events,
+        private alertCtrl: AlertController
     ) {
         platform.ready().then(() => {
+
+            if (platform.is('core')) {
+                console.log('桌面调试时不使用 sqlite');
+                this.isReady = true;
+                this.dbReadyEvent();
+                return;
+            }
+
             this.db = new SQLite();
             this.db.openDatabase({
                 name: 'data.db',
-                location: 'default' // the location field is required)
+                location: 'default'
             })
                 .then(() => {
                     this.initDb();
@@ -72,5 +81,10 @@ export class SQLiteDbService {
             buttons: ['确认']
         });
         return alert.present();
+    }
+
+    private dbReadyEvent() {
+        //发布 本地数据加载完成事件
+        this.events.publish('db:ready', Date.now());
     }
 }
