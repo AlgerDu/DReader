@@ -3,7 +3,7 @@ export class Book {
     name: string;
     local: boolean;
     author: string;
-    readingPct: number;
+    readPct: number;
     readingChapter: Chapter;
     updateCount: number;
     coverUrl: string;

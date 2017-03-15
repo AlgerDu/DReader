@@ -17,7 +17,9 @@ export class SQLiteDbService {
                 name: 'data.db',
                 location: 'default' // the location field is required)
             })
-                .then(this.initDb)
+                .then(() => {
+                    this.initDb();
+                })
                 .catch(() => {
                     this.showAlert('读取本地数据失败！');
                 });
@@ -31,32 +33,37 @@ export class SQLiteDbService {
     //初始化一个新的数据库
     private initDb() {
         this.db.transaction(function (tx) {
-            tx.executeSql('DROP TABLE IF EXISTS MyTable');
-            tx.executeSql('CREATE TABLE MyTable (SampleColumn)');
-            tx.executeSql(`
-                DROP TABLE IF EXISTS Account;
-                DROP TABLE IF EXISTS BookShelf;
-                DROP TABLE IF EXISTS Book;
-                DROP TABLE IF EXISTS Volume;
-                DROP TABLE IF EXISTS Chapter;
-                CREATE TABLE Account ( uid char(36) PRIMARY KEY, name TEXT not null);
-                CREATE TABLE BookShelf ( accUid char(36) PRIMARY KEY, bookUid char(36) PRIMARY KEY, readPct INT not null, updateCount INT not null);
-                CREATE TABLE Book ( uid char(36) PRIMARY KEY, name TEXT not null, author TEXT not null);
-                CREATE TABLE Volume ( bookUid char(36) PRIMARY KEY, index INT PRIMARY KEY, name TEXT not null);
-                CREATE TABLE Chapter ( uid char(36) PRIMARY KEY, name TEXT not null, txt TEXT not null, vNo INT not null, vIndex INT not null);
-            `);
-        })
-            .then(() => {
-                this.isReady = true
-            })
-            .catch(() => {
-                this.showAlert('数据初始化失败！');
-            });
+            this.db.executeSql('DROP TABLE IF EXISTS Account', []);
+            this.db.executeSql('DROP TABLE IF EXISTS BookShelf', []);
+            this.db.executeSql('DROP TABLE IF EXISTS Book', []);
+            this.db.executeSql('DROP TABLE IF EXISTS Volume', []);
+            this.db.executeSql('DROP TABLE IF EXISTS Chapter', []);
+            this.db.executeSql('CREATE TABLE Account ( uid char(36) PRIMARY KEY, name TEXT not null)', []);
+            this.db.executeSql('CREATE TABLE BookShelf ( accUid char(36), bookUid char(36), readPct INT not null, updateCount INT not null, PRIMARY KEY(accUid,bookUid))', []);
+            this.db.executeSql('CREATE TABLE Book ( uid char(36) PRIMARY KEY, name TEXT not null, author TEXT not null)', []);
+            this.db.executeSql(' CREATE TABLE Volume ( bookUid char(36), vIndex INT, name TEXT not null, PRIMARY KEY(bookUid,vIndex))', []);
+            this.db.executeSql('CREATE TABLE Chapter ( uid char(36) PRIMARY KEY, name TEXT not null, txt TEXT not null, vNo INT not null, vIndex INT not null)', []);
+        }).then(() => {
+            this.isReady = true;
+            console.log('创建数据库成功');
+            this.insertMockData();
+        }).catch(() => {
+            this.showAlert('数据初始化失败！');
+        });
     }
 
-    //数据库迁移
-    private migrationDb() {
-
+    //添加模拟数据
+    private insertMockData() {
+        this.db.transaction(function (tx) {
+            this.db.executeSql(' INSERT INTO Account VALUES ( ?, ?)', ['a1', 'ace']);
+            this.db.executeSql('INSERT INTO Book VALUES ( ?, ?, ?)', ['b1', '修真聊天群', '圣骑士的传说']);
+            this.db.executeSql('INSERT INTO Book VALUES ( ?, ?, ?)', ['b2', '神级英雄', '']);
+            this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b1', 90, 3]);
+            this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b2', 0, 0]);
+        }).catch((error) => {
+            console.log(error);
+            this.showAlert('添加模拟数据失败：' + error);
+        });
     }
 
     private showAlert(msg: string): Promise<any> {

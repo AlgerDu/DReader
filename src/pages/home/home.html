@@ -17,7 +17,7 @@
       </ion-thumbnail>
       <h2>{{ book.name }}</h2>
       <p>{{ book.author==null?'未知作者':book.author+' 著' }}</p>
-      <p>已读 {{ book.readingPct}}%</p>
+      <p>已读 {{ book.readPct}}%</p>
       <ion-badge item-right color='danger' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
     </ion-item>
   </ion-list>

@@ -24,11 +24,11 @@ export class HomePage {
     private bookService: BookService,
     private configService: ConfigService
   ) {
-    this.books = this.bookService.SheetList();
     this.configer = configService.get();
   }
 
   ionViewWillEnter() {
+    this.bookService.SheetList().then(books => this.books = books);
   }
 
   ReadBook(book: Book) {
