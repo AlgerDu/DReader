@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="huise">
     <ion-title>书架</ion-title>
   </ion-navbar>
 </ion-header>
@@ -13,13 +13,13 @@
   <ion-list>
     <ion-item *ngFor="let book of books" (click)="ReadBook(book)">
       <ion-thumbnail item-left>
-        <img src="img/thumbnail-totoro.png">
+        <img *ngIf="book.coverUrl == null || book.coverUrl =='' " src="../../assets/img/alt.jpg">
       </ion-thumbnail>
       <h2>{{ book.name }}</h2>
-      <p *ngIf="book.author != null && book.author.length > 0">{{ book.author+' 著' }}</p>
+      <p class="book-author" *ngIf="book.author != null && book.author.length > 0">{{ book.author+' 著' }}</p>
       <p *ngIf="book.author == null || book.author.length == 0">{{ '未知作者' }}</p>
-      <p>已读 {{ book.readPct}}%</p>
-      <ion-badge item-right color='danger' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
+      <p class="book-pct">已读 {{ book.readPct}}%</p>
+      <ion-badge item-right color='sky' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
     </ion-item>
   </ion-list>
 </ion-content>

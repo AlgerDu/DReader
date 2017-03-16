@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+//import { Headers, Http } from '@angular/http';
 
 import { Book, Chapter } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
