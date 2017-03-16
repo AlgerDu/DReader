@@ -7,15 +7,15 @@ import { EventType } from '../model';
 @Injectable()
 export class SQLiteDbService {
     public isReady: boolean = false;
-    public db: SQLite;
+    db: SQLite;
     constructor(
-        platform: Platform,
-        public events: Events,
+        private plt: Platform,
+        events: Events,
         private alertCtrl: AlertController
     ) {
-        platform.ready().then(() => {
+        plt.ready().then(() => {
 
-            if (platform.is('core')) {
+            if (plt.is('core')) {
                 console.log('桌面调试时不使用 sqlite');
                 this.isReady = true;
                 this.dbReadyEvent();
@@ -37,15 +37,20 @@ export class SQLiteDbService {
     }
 
     public executeSql(sql: string, params: any): Promise<any> {
-        return this.db.executeSql(sql, params).then((rs) => {
-            let array: any[] = [];
-            for (let i = 0; i < rs.rows.length; i++) {
-                array.push(rs.rows.item(i));
-            }
-            console.log('sql is ' + sql);
-            console.log('reault : ' + JSON.stringify(array));
-            return array;
-        });
+        if (this.plt.is('core')) {
+            console.log('桌面调试不执行 sql 语句：' + sql);
+            return Promise.resolve(null);
+        } else {
+            return this.db.executeSql(sql, params).then((rs) => {
+                let array: any[] = [];
+                for (let i = 0; i < rs.rows.length; i++) {
+                    array.push(rs.rows.item(i));
+                }
+                console.log('sql is ' + sql);
+                console.log('reault : ' + JSON.stringify(array));
+                return array;
+            });
+        }
     }
 
     //初始化一个新的数据库
@@ -73,7 +78,7 @@ export class SQLiteDbService {
     //添加模拟数据
     private insertMockData() {
         this.db.transaction(function (tx) {
-            this.db.executeSql(' INSERT INTO Account VALUES ( ?, ?, ?, ?)', ['a1', 'ace', 'true', 'false']);
+            this.db.executeSql('INSERT INTO Account VALUES ( ?, ?, ?, ?)', ['a1', 'ace', 'true', 'false']);
             this.db.executeSql('INSERT INTO Book VALUES ( ?, ?, ?)', ['b1', '修真聊天群', '圣骑士的传说']);
             this.db.executeSql('INSERT INTO Book VALUES ( ?, ?, ?)', ['b2', '神级英雄', '']);
             this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b1', 90, 3]);
