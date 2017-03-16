@@ -1,3 +1,25 @@
+/**
+ * 账户信息
+ * 
+ * @export
+ * @class AccountInfo
+ */
+export class AccountInfo {
+    uid: string;
+    /**
+     * 账户姓名
+     * @type {string}
+     * @memberOf AccountInfo
+     */
+    name: string;
+    /**
+     * 是否是本地账户
+     * @type {Boolean}
+     * @memberOf AccountInfo
+     */
+    local: Boolean;
+}
+
 export class Book {
     uid: string;
     name: string;
