@@ -22,3 +22,16 @@ export class Configer {
         this.autoRefreshAppOpen = true;
     }
 }
+
+/**
+ * 事件类型定义
+ * 
+ * @export
+ * @enum {number}
+ */
+export enum EventType {
+    /**
+     * 本地数据加载完成事件
+     */
+    DB_READY
+}

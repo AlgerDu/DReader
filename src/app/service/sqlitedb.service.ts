@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Platform, AlertController, Events } from 'ionic-angular';
 import { SQLite } from "ionic-native";
+import { EventType } from '../model';
 
 @Injectable()
 export class SQLiteDbService {
@@ -78,6 +79,7 @@ export class SQLiteDbService {
             this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b1', 90, 3]);
             this.db.executeSql('INSERT INTO BookShelf VALUES ( ?, ?, ?, ?)', ['a1', 'b2', 0, 0]);
         }).then(() => {
+            console.log('添加部分模拟数据');
             this.dbReadyEvent();
         }).catch((error) => {
             console.log(error);
@@ -95,6 +97,6 @@ export class SQLiteDbService {
 
     private dbReadyEvent() {
         //发布 本地数据加载完成事件
-        this.events.publish('db:ready', Date.now());
+        this.events.publish(EventType.DB_READY.toString(), Date.now());
     }
 }

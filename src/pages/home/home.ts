@@ -4,7 +4,7 @@ import { NavController, Content, Events } from 'ionic-angular';
 import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
-import { Book, Configer } from '../../app/model';
+import { Book, Configer, EventType } from '../../app/model';
 import { ConfigService } from '../../app/service/config.service';
 
 @Component({
@@ -27,13 +27,7 @@ export class HomePage {
   ) {
     this.configer = configService.get();
 
-    this.events.subscribe('db:ready', (time) => {
-      console.log('数据加载完毕，')
-      this.bookService.SheetList().then((books) => {
-        console.log(books);
-        this.books = books;
-      });
-    });
+    this.events.subscribe(EventType.DB_READY.toString(), this.DbReadyEventHandler);
   }
 
   ReadBook(book: Book) {
@@ -45,5 +39,22 @@ export class HomePage {
       .then(() => {
         refresher.complete();
       });
+  }
+
+
+  /**
+   * 处理数据加载完成事件
+   * @private
+   * @param {any} time 
+   * 
+   * @memberOf HomePage
+   */
+  private DbReadyEventHandler(time) {
+    console.log(time + '本地数据加载完成');
+    console.log('数据加载完毕，')
+    this.bookService.SheetList().then((books) => {
+      console.log(books);
+      this.books = books;
+    });
   }
 }
