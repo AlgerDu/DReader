@@ -8,6 +8,7 @@ import { AccountService } from './account.service';
 
 @Injectable()
 export class BookService {
+    private books: Book[];
 
     constructor(
         private plt: Platform,
@@ -24,12 +25,17 @@ export class BookService {
      * @memberOf BookService
      */
     public SheetList(): Promise<Book[]> {
+        if (this.books.length > 0) {
+            return Promise.resolve(this.books);
+        }
+
         if (this.plt.is('core')) {
             let books = [
                 { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
                 { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
             ];
-            return Promise.resolve(books);
+            this.books = books as Book[];
+            return Promise.resolve(this.books);
         }
 
         return this.accountService.CurrAccount().then<Book[]>((account) => {
@@ -37,7 +43,8 @@ export class BookService {
                 'select * from BookShelf as bs, Book as b where accUid = ? and bs.bookUid = b.uid',
                 [account.uid]
             ).then((data) => {
-                return data as Book[];
+                this.books = data;
+                return this.books;
             });
         });
     }

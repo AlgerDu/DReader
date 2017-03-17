@@ -32,23 +32,30 @@ export class AccountService {
      * @memberOf AccountService
      */
     public CurrAccount(): Promise<AccountInfo> {
-        let sqlLogin = 'SELECT * FROM Account WHERE login = "true"';
-        let sqlLocal = 'SELECT * FROM Account WHERE local = "true"';
-        return this.db.executeSql(sqlLogin, []).then((data) => {
-            if (data.length == 1) {
-                this.account = data[0] as AccountInfo;
-                return this.account;
-            } else {
-                this.db.executeSql(sqlLocal, []).then((data) => {
-                    if (data.length == 1) {
-                        this.account = data[0] as AccountInfo;
-                        return this.account;
-                    } else {
-                        return this.CreateNewLoaclAccount();
-                    }
-                })
-            }
-        })
+        if (this.account != null) {
+            //当账户信息已经加载，不重复进行加载
+            return Promise.resolve(this.account);
+        } else {
+
+            let sqlLogin = 'SELECT * FROM Account WHERE login = "true"';
+            let sqlLocal = 'SELECT * FROM Account WHERE local = "true"';
+
+            return this.db.executeSql(sqlLogin, []).then((data) => {
+                if (data.length == 1) {
+                    this.account = data[0] as AccountInfo;
+                    return this.account;
+                } else {
+                    this.db.executeSql(sqlLocal, []).then((data) => {
+                        if (data.length == 1) {
+                            this.account = data[0] as AccountInfo;
+                            return this.account;
+                        } else {
+                            return this.CreateNewLoaclAccount();
+                        }
+                    })
+                }
+            });
+        }
     }
 
     /**
