@@ -39,7 +39,7 @@ export class SQLiteDbService {
     public executeSql(sql: string, params: any): Promise<any> {
         if (this.plt.is('core')) {
             console.log('桌面调试不执行 sql 语句：' + sql);
-            return Promise.resolve(null);
+            return Promise.resolve([]);
         } else {
             return this.db.executeSql(sql, params).then((rs) => {
                 let array: any[] = [];
