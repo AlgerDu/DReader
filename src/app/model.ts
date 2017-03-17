@@ -20,6 +20,19 @@ export class AccountInfo {
     local: Boolean;
 }
 
+/** 
+ *账户配置信息
+ * @export
+ * @class Config
+ */
+export class Config {
+    autoRefreshOnAppOpen: boolean;
+
+    constructor() {
+        this.autoRefreshOnAppOpen = true;
+    }
+}
+
 export class Book {
     uid: string;
     name: string;
@@ -35,14 +48,6 @@ export class Chapter {
     uid: string;
     name: string;
     text: string;
-}
-
-export class Configer {
-    autoRefreshAppOpen: boolean; //app 启动时自动刷新
-
-    constructor() {
-        this.autoRefreshAppOpen = true;
-    }
 }
 
 /**

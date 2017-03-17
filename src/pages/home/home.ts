@@ -4,7 +4,7 @@ import { NavController, Content, Events } from 'ionic-angular';
 import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
-import { Book, Configer, EventType } from '../../app/model';
+import { Book, Config, EventType } from '../../app/model';
 import { ConfigService } from '../../app/service/config.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class HomePage {
 
   private hasLoaded: boolean = false;
 
-  public configer: Configer;
+  public configer: Config;
   public books: Book[];
 
   constructor(
