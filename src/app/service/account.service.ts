@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountInfo } from '../model';
+import { AccountInfo, Config } from '../model';
 import { SQLiteDbService } from './sqlitedb.service';
 import { generateUUID } from '../common';
 
@@ -10,6 +10,14 @@ export class AccountService {
      * 当前账户信息
      */
     private account: AccountInfo;
+
+    /**
+     * 当前账户的配置信息
+     * @private
+     * @type {Config}
+     * @memberOf AccountService
+     */
+    private config: Config;
 
     constructor(
         private db: SQLiteDbService
@@ -24,9 +32,33 @@ export class AccountService {
      * @memberOf AccountService
      */
     public CurrAccount(): Promise<AccountInfo> {
-        return Promise.resolve(null);
+        let sqlLogin = 'SELECT * FROM Account WHERE login = "true"';
+        let sqlLocal = 'SELECT * FROM Account WHERE local = "true"';
+        return this.db.executeSql(sqlLogin, []).then((data) => {
+            if (data.length == 1) {
+                this.account = data[0] as AccountInfo;
+                return this.account;
+            } else {
+                this.db.executeSql(sqlLocal, []).then((data) => {
+                    if (data.length == 1) {
+                        this.account = data[0] as AccountInfo;
+                        return this.account;
+                    } else {
+                        return this.CreateNewLoaclAccount();
+                    }
+                })
+            }
+        })
     }
 
+    /**
+     * 获取当前账户配置文件
+     * @returns {Promise<Config>} 
+     * @memberOf AccountService
+     */
+    public CurrAccountConfig(): Promise<Config> {
+        return Promise.resolve(null);
+    }
 
     /**
      * 创建一个本地账户，用来在用户没有登陆的时候使用
@@ -41,7 +73,7 @@ export class AccountService {
             local: true
         };
 
-        this.db.executeSql(
+        return this.db.executeSql(
             'INSERT INTO Account VALUES ( ?, ?, ?, ?)',
             [this.account.uid, this.account.name, this.account.local, 'false']
         ).then(() => {
