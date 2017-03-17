@@ -10,7 +10,7 @@ export class SQLiteDbService {
     db: SQLite;
     constructor(
         private plt: Platform,
-        events: Events,
+        private events: Events,
         private alertCtrl: AlertController
     ) {
         plt.ready().then(() => {
@@ -49,6 +49,10 @@ export class SQLiteDbService {
                 console.log('sql is ' + sql);
                 console.log('reault : ' + JSON.stringify(array));
                 return array;
+            }).catch((error) => {
+                console.log('sql is ' + sql);
+                console.log('执行失败：' + error);
+                return Promise.reject('sql 语句执行失败');
             });
         }
     }
