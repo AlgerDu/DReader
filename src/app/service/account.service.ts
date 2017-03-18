@@ -40,19 +40,21 @@ export class AccountService {
             let sqlLogin = 'SELECT * FROM Account WHERE login = "true"';
             let sqlLocal = 'SELECT * FROM Account WHERE local = "true"';
 
-            return this.db.executeSql(sqlLogin, []).then((data) => {
+            return this.db.executeSql(sqlLogin, []).then<AccountInfo>((data) => {
                 if (data.length == 1) {
                     this.account = data[0] as AccountInfo;
                     return this.account;
                 } else {
-                    this.db.executeSql(sqlLocal, []).then((data) => {
+                    return this.db.executeSql(sqlLocal, []).then((data) => {
                         if (data.length == 1) {
                             this.account = data[0] as AccountInfo;
                             return this.account;
                         } else {
-                            return this.CreateNewLoaclAccount();
+                            return this.CreateNewLoaclAccount().then(() => {
+                                return this.account;
+                            });
                         }
-                    })
+                    });
                 }
             });
         }
@@ -84,12 +86,10 @@ export class AccountService {
             'INSERT INTO Account VALUES ( ?, ?, ?, ?)',
             [this.account.uid, this.account.name, this.account.local, 'false']
         ).then(() => {
-            console.log('创建本地账户并且保存成功：' + this.account);
-            return this.account;
+            console.log('创建本地账户并且保存成功：', this.account);
         }).catch((error) => {
             console.log('创建本地账户保存到数据库失败：' + this.account);
             console.log('失败原因：' + error);
-            return null;
         })
     }
 }

@@ -30,10 +30,7 @@ export class BookService {
         }
 
         if (this.plt.is('core')) {
-            let books = [
-                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
-                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
-            ];
+            let books = [];
             this.books = books as Book[];
             return Promise.resolve(this.books);
         }

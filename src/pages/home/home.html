@@ -10,7 +10,18 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-list>
+  <ion-list *ngIf="books.length == 0">
+    <ion-list-header>
+      <p>你的书架中没有书籍！</p>
+      <p>你可以：</p>
+    </ion-list-header>
+    <ion-item *ngIf="account != null && account.local == true">登陆账号，同步阅读记录</ion-item>
+    <ion-item *ngIf="account != null && account.local == false">刷新一下，同步你的阅读记录</ion-item>
+    <ion-item>去书城看看</ion-item>
+    <ion-item></ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="books.length > 0">
     <ion-item *ngFor="let book of books" (click)="ReadBook(book)">
       <ion-thumbnail item-left>
         <img *ngIf="book.coverUrl == null || book.coverUrl =='' " src="../../assets/img/alt.jpg">

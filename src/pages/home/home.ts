@@ -4,7 +4,7 @@ import { NavController, Content, Events } from 'ionic-angular';
 import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
-import { Book, Config, EventType } from '../../app/model';
+import { Book, Config, EventType, AccountInfo } from '../../app/model';
 import { ConfigService } from '../../app/service/config.service';
 import { AccountService } from '../../app/service/account.service';
 
@@ -18,11 +18,12 @@ export class HomePage {
   private hasLoaded: boolean = false;
 
   public configer: Config;
-  public books: Book[];
+  public books: Book[] = [];
+  public account: AccountInfo;
 
   constructor(
-    public events: Events,
-    public navCtrl: NavController,
+    private events: Events,
+    private navCtrl: NavController,
     private bookService: BookService,
     private configService: ConfigService,
     private accountService: AccountService
@@ -31,6 +32,11 @@ export class HomePage {
 
     this.events.subscribe(EventType.DB_READY.toString(), (time) => {
       console.log('homepage 处理数据加载完毕事件');
+
+      this.accountService.CurrAccount().then((account) => {
+        this.account = account;
+      })
+
       this.bookService.SheetList().then((books) => {
         this.books = books;
       });
