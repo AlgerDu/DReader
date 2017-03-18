@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-import { Configer } from '../model';
+import { Config } from '../model';
 
 @Injectable()
 export class ConfigService {
     private configerStorageName: string = 'configer';
 
-    private configer: Configer;
+    private configer: Config;
 
     constructor(
         private storage: Storage
@@ -16,7 +16,7 @@ export class ConfigService {
             storage.get(this.configerStorageName).then((val) => {
                 console.log(val);
                 if (val == null) {
-                    this.configer = new Configer();
+                    this.configer = new Config();
                 } else {
                     this.configer = val;
                 }
@@ -28,7 +28,7 @@ export class ConfigService {
         this.storage.set(this.configerStorageName, this.configer);
     }
 
-    get(): Configer {
+    get(): Config {
         return this.configer;
     }
 }
