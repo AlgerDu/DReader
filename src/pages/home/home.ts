@@ -6,6 +6,7 @@ import { ReaderPage } from '../reader/reader'
 import { BookService } from '../../app/service/book.service';
 import { Book, Config, EventType } from '../../app/model';
 import { ConfigService } from '../../app/service/config.service';
+import { AccountService } from '../../app/service/account.service';
 
 @Component({
   selector: 'page-home',
@@ -23,11 +24,17 @@ export class HomePage {
     public events: Events,
     public navCtrl: NavController,
     private bookService: BookService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private accountService: AccountService
   ) {
     this.configer = configService.get();
 
-    this.events.subscribe(EventType.DB_READY.toString(), this.DbReadyEventHandler);
+    this.events.subscribe(EventType.DB_READY.toString(), (time) => {
+      console.log('homepage 处理数据加载完毕事件');
+      this.bookService.SheetList().then((books) => {
+        this.books = books;
+      });
+    });
   }
 
   ReadBook(book: Book) {
@@ -50,10 +57,8 @@ export class HomePage {
    * @memberOf HomePage
    */
   private DbReadyEventHandler(time) {
-    console.log(time + '本地数据加载完成');
-    console.log('数据加载完毕，')
+    console.log('homepage 处理数据加载完毕事件');
     this.bookService.SheetList().then((books) => {
-      console.log(books);
       this.books = books;
     });
   }
