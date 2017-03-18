@@ -25,7 +25,7 @@ export class BookService {
      * @memberOf BookService
      */
     public SheetList(): Promise<Book[]> {
-        if (this.books.length > 0) {
+        if (this.books != null && this.books.length > 0) {
             return Promise.resolve(this.books);
         }
 
