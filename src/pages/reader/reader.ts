@@ -18,17 +18,17 @@ export class ReaderPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public menuCtrl: MenuController,
-    public plt: Platform,
+    private plt: Platform,
     private bookService: BookService
   ) {
     this.book = this.navParams.get('book');
 
     this.plt.ready().then(() => {
-      this.registerBackButtonAction();//注册返回按键事件
+      this.RegisterBackButtonAction();
     });
   }
 
-  ionViewDidLoad() {
+  public ionViewDidLoad() {
     let elements = document.querySelectorAll(".tabbar");
     if (elements != null) {
       Object.keys(elements).map((key) => {
@@ -38,7 +38,7 @@ export class ReaderPage {
     console.log('ionViewDidLoad ReaderPage');
   }
 
-  ionViewWillLeave() {
+  public ionViewWillLeave() {
     let elements = document.querySelectorAll(".tabbar");
     if (elements != null) {
       Object.keys(elements).map((key) => {
@@ -47,16 +47,25 @@ export class ReaderPage {
     }
   }
 
-  //toggle 阅读器的工具栏
-  toggleReaderTool() {
+  /**
+   * 弹出或者关闭阅读器工具栏
+   * 
+   * @memberOf ReaderPage
+   */
+  public ToggleReaderTool() {
     this.readerToolShow = !this.readerToolShow;
   }
 
-  //注册页面的 后退按钮事件
-  registerBackButtonAction() {
+  /**
+   * 注册后退按钮事件
+   * @private
+   * 
+   * @memberOf ReaderPage
+   */
+  private RegisterBackButtonAction() {
     this.plt.registerBackButtonAction(() => {
       if (this.readerToolShow) {
-        this.readerToolShow = !this.readerToolShow;
+        this.ToggleReaderTool();
       } else if (this.menuCtrl.isOpen()) {
         this.menuCtrl.close();
       } else {
