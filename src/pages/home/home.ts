@@ -30,7 +30,7 @@ export class HomePage {
     this.SubscribeAccountLoadendEvent();
   }
 
-  ReadBook(book: Book) {
+  public ReadBook(book: Book) {
     this.navCtrl.push(ReaderPage, { book: book });
   }
 
