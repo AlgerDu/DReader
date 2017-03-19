@@ -70,6 +70,8 @@ export class Chapter {
     uid: string;
     name: string;
     text: string;
+    vNo: Number;
+    vIndex: number;
 }
 
 /**
