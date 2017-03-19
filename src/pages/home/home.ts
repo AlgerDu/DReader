@@ -28,29 +28,27 @@ export class HomePage {
     private accountService: AccountService
   ) {
 
-    this.events.subscribe(EventType.DB_READY.toString(), (time) => {
-      console.log('homepage 处理数据加载完毕事件');
+    this.events.subscribe(EventType.Account_Loadend.toString(), (time) => {
+      console.log('homepage 处理 Account_Loadend 事件');
 
-      this.accountService.CurrAccount().then((account) => {
-        this.account = account;
+      this.account = this.accountService.CurrAccount();
 
-        this.bookService.SheetList().then((books) => {
-          this.books = books;
+      this.bookService.SheetList().then((books) => {
+        this.books = books;
 
-          if (this.books.length > 0 && this.account.config.autoUpdateBookInfo) {
-            console.log('自动获取小说更新信息');
-            let load = this.loadingCtrl.create({
-              content: '正在刷新...',
-              dismissOnPageChange: true,
-            });
-            load.present();
-            this.UpdateBookInfo().then(() => {
-              load.dismiss();
-            }).catch(() => {
-              load.dismiss();
-            });
-          }
-        });
+        if (this.books.length > 0 && this.account.config.autoUpdateBookInfo) {
+          console.log('自动获取小说更新信息');
+          let load = this.loadingCtrl.create({
+            content: '正在刷新...',
+            dismissOnPageChange: true,
+          });
+          load.present();
+          this.UpdateBookInfo().then(() => {
+            load.dismiss();
+          }).catch(() => {
+            load.dismiss();
+          });
+        }
       });
     });
   }
