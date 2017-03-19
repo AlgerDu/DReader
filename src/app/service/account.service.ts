@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AccountInfo, Config } from '../model';
+import { Events } from 'ionic-angular';
+import { AccountInfo, Config, EventType } from '../model';
 import { SQLiteDbService } from './sqlitedb.service';
 import { generateUUID } from '../common';
 
@@ -20,9 +21,11 @@ export class AccountService {
     private config: Config;
 
     constructor(
+        private events: Events,
         private db: SQLiteDbService
-    ) { }
-
+    ) {
+        this.SubscribeDbReadyEvent();
+    }
 
     /**
      * 获取当前 app 的账户信息
@@ -31,42 +34,58 @@ export class AccountService {
      * 
      * @memberOf AccountService
      */
-    public CurrAccount(): Promise<AccountInfo> {
+    public CurrAccount(): AccountInfo {
         if (this.account != null) {
             //当账户信息已经加载，不重复进行加载
-            return Promise.resolve(this.account);
+            return this.account;
         } else {
+            console.log('还没有加载 account 信息');
+            return null;
+        }
+    }
+
+    /**
+     * 订阅 DB_READY
+     * 发布 Account_Loadend
+     * @private
+     * 
+     * @memberOf AccountService
+     */
+    private SubscribeDbReadyEvent() {
+        this.events.subscribe(EventType.DB_READY.toString(), (time) => {
+            console.log('account service 处理 DB_READY 事件');
 
             let sqlLogin = 'SELECT * FROM Account WHERE login = "true"';
             let sqlLocal = 'SELECT * FROM Account WHERE local = "true"';
 
-            return this.db.executeSql(sqlLogin, []).then<AccountInfo>((data) => {
+            this.db.executeSql(sqlLogin, []).then((data) => {
                 if (data.length == 1) {
                     this.account = this.DbRecoreToAccountModel(data[0]);
-                    return this.account;
+                    this.PublishAccountLoadendEvent();
                 } else {
                     return this.db.executeSql(sqlLocal, []).then((data) => {
                         if (data.length == 1) {
                             this.account = this.DbRecoreToAccountModel(data[0]);
-                            return this.account;
+                            this.PublishAccountLoadendEvent();
                         } else {
                             return this.CreateNewLoaclAccount().then(() => {
-                                return this.account;
+                                this.PublishAccountLoadendEvent();
                             });
                         }
                     });
                 }
             });
-        }
+        })
     }
 
     /**
-     * 获取当前账户配置文件
-     * @returns {Promise<Config>} 
+     * 发布 Account_Loadend 事件
+     * @private
+     * 
      * @memberOf AccountService
      */
-    public CurrAccountConfig(): Promise<Config> {
-        return Promise.resolve(null);
+    private PublishAccountLoadendEvent() {
+        this.events.publish(EventType.Account_Loadend.toString(), Date.now());
     }
 
     /**

@@ -82,5 +82,11 @@ export enum EventType {
     /**
      * 本地数据加载完成事件
      */
-    DB_READY
+    DB_READY,
+
+    /**
+     * 账户信息加载完成
+     * 依赖于 DB_READY
+     */
+    Account_Loadend
 }
