@@ -38,14 +38,12 @@ export class BookService {
             return Promise.resolve(this.books);
         }
 
-        return this.accountService.CurrAccount().then<Book[]>((account) => {
-            return this.dbService.executeSql(
-                'select * from BookShelf as bs, Book as b where accUid = ? and bs.bookUid = b.uid',
-                [account.uid]
-            ).then((data) => {
-                this.books = data;
-                return this.books;
-            });
+        return this.dbService.executeSql(
+            'select * from BookShelf as bs, Book as b where accUid = ? and bs.bookUid = b.uid',
+            [this.accountService.CurrAccount().uid]
+        ).then((data) => {
+            this.books = data;
+            return this.books;
         });
     }
 
