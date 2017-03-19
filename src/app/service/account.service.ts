@@ -42,12 +42,12 @@ export class AccountService {
 
             return this.db.executeSql(sqlLogin, []).then<AccountInfo>((data) => {
                 if (data.length == 1) {
-                    this.account = data[0] as AccountInfo;
+                    this.account = this.DbRecoreToAccountModel(data[0]);
                     return this.account;
                 } else {
                     return this.db.executeSql(sqlLocal, []).then((data) => {
                         if (data.length == 1) {
-                            this.account = data[0] as AccountInfo;
+                            this.account = this.DbRecoreToAccountModel(data[0]);
                             return this.account;
                         } else {
                             return this.CreateNewLoaclAccount().then(() => {
@@ -70,6 +70,23 @@ export class AccountService {
     }
 
     /**
+     * 将数据库表数据转换为 AccountInfo 对象
+     * @private
+     * @param {*} record 
+     * @returns {AccountInfo} 
+     * 
+     * @memberOf AccountService
+     */
+    private DbRecoreToAccountModel(record: any): AccountInfo {
+        let account = new AccountInfo();
+        account.uid = record.uid;
+        account.name = record.name;
+        account.config = JSON.parse(record.config) as Config;
+
+        return account;
+    }
+
+    /**
      * 创建一个本地账户，用来在用户没有登陆的时候使用
      * @private
      * 
@@ -79,12 +96,13 @@ export class AccountService {
         this.account = {
             uid: generateUUID(),
             name: '本地',
-            local: true
+            local: true,
+            config: new Config()
         };
 
         return this.db.executeSql(
-            'INSERT INTO Account VALUES ( ?, ?, ?, ?)',
-            [this.account.uid, this.account.name, this.account.local, 'false']
+            'INSERT INTO Account VALUES ( ?, ?, ?, ?, ?)',
+            [this.account.uid, this.account.name, this.account.local, 'false', JSON.stringify(this.account.config)]
         ).then(() => {
             console.log('创建本地账户并且保存成功：', this.account);
         }).catch((error) => {

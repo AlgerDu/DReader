@@ -6,18 +6,27 @@
  */
 export class AccountInfo {
     uid: string;
+
     /**
      * 账户姓名
      * @type {string}
      * @memberOf AccountInfo
      */
     name: string;
+
     /**
      * 是否是本地账户
      * @type {Boolean}
      * @memberOf AccountInfo
      */
     local: Boolean;
+
+    /**
+     * 账户的配置信息
+     * @type {Config}
+     * @memberOf AccountInfo
+     */
+    config: Config;
 }
 
 /** 
@@ -26,10 +35,23 @@ export class AccountInfo {
  * @class Config
  */
 export class Config {
-    autoRefreshOnAppOpen: boolean;
+    /**
+     * 自动同步账户的阅读记录（需要登陆）
+     * @type {boolean}
+     * @memberOf Config
+     */
+    autoSyncReadingRecord: boolean;
+
+    /**
+     * 自动获取书架书籍的章节更新信息
+     * @type {boolean}
+     * @memberOf Config
+     */
+    autoUpdateBookInfo: boolean;
 
     constructor() {
-        this.autoRefreshOnAppOpen = true;
+        this.autoSyncReadingRecord = true;
+        this.autoUpdateBookInfo = true;
     }
 }
 
