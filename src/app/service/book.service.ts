@@ -30,7 +30,10 @@ export class BookService {
         }
 
         if (this.plt.is('core')) {
-            let books = [];
+            let books = [
+                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
+                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
+            ];
             this.books = books as Book[];
             return Promise.resolve(this.books);
         }
@@ -51,8 +54,18 @@ export class BookService {
         return null;
     }
 
-    //更新本地缓存与远程服务器之间的内容
-    Refresh(): Promise<void> {
-        return Promise.resolve();
+
+    /**
+     * 获取书架书籍的更新信息
+     * @returns {Promise<void>} 
+     * 
+     * @memberOf BookService
+     */
+    public Refresh(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 3000);
+        });
     }
 }

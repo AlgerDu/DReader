@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Content, Events } from 'ionic-angular';
+import { NavController, Content, Events, LoadingController } from 'ionic-angular';
 
 import { ReaderPage } from '../reader/reader'
 
@@ -17,28 +17,40 @@ export class HomePage {
 
   private hasLoaded: boolean = false;
 
-  public configer: Config;
   public books: Book[] = [];
   public account: AccountInfo;
 
   constructor(
     private events: Events,
     private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
     private bookService: BookService,
-    private configService: ConfigService,
     private accountService: AccountService
   ) {
-    this.configer = configService.get();
 
     this.events.subscribe(EventType.DB_READY.toString(), (time) => {
       console.log('homepage 处理数据加载完毕事件');
 
       this.accountService.CurrAccount().then((account) => {
         this.account = account;
-      })
 
-      this.bookService.SheetList().then((books) => {
-        this.books = books;
+        this.bookService.SheetList().then((books) => {
+          this.books = books;
+
+          if (this.books.length > 0 && this.account.config.autoUpdateBookInfo) {
+            console.log('自动获取小说更新信息');
+            let load = this.loadingCtrl.create({
+              content: '正在刷新...',
+              dismissOnPageChange: true,
+            });
+            load.present();
+            this.UpdateBookInfo().then(() => {
+              load.dismiss();
+            }).catch(() => {
+              load.dismiss();
+            });
+          }
+        });
       });
     });
   }
@@ -47,25 +59,23 @@ export class HomePage {
     this.navCtrl.push(ReaderPage, { book: book });
   }
 
-  RefreshLocalInfo(refresher) {
-    this.bookService.Refresh()
-      .then(() => {
-        refresher.complete();
-      });
-  }
-
-
   /**
-   * 处理数据加载完成事件
+   * 获取服务器书籍更新信息
    * @private
-   * @param {any} time 
+   * @returns {Promise<any>} 
    * 
    * @memberOf HomePage
    */
-  private DbReadyEventHandler(time) {
-    console.log('homepage 处理数据加载完毕事件');
-    this.bookService.SheetList().then((books) => {
-      this.books = books;
-    });
+  private UpdateBookInfo(): Promise<any> {
+    return this.bookService.Refresh();
+  }
+
+  private RefreshBookInfo(refresher) {
+    console.log('下拉刷新启动');
+    this.UpdateBookInfo().then(() => {
+      refresher.complete();
+    }).catch(() => {
+      refresher.complete();
+    })
   }
 }
