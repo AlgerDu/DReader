@@ -9,8 +9,8 @@ import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { BookService } from './service/book.service';
-import { ConfigService } from './service/config.service';
 import { SQLiteDbService } from './service/sqlitedb.service';
+import { AccountService } from './service/account.service';
 
 @NgModule({
   declarations: [
@@ -35,8 +35,8 @@ import { SQLiteDbService } from './service/sqlitedb.service';
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     BookService,
-    ConfigService,
-    SQLiteDbService
+    SQLiteDbService,
+    AccountService
   ]
 })
 export class AppModule { }

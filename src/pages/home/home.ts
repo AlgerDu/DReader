@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Content, Events } from 'ionic-angular';
+import { NavController, Content, Events, LoadingController } from 'ionic-angular';
 
 import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
-import { Book, Configer } from '../../app/model';
+import { Book, Config, EventType, AccountInfo } from '../../app/model';
 import { ConfigService } from '../../app/service/config.service';
+import { AccountService } from '../../app/service/account.service';
 
 @Component({
   selector: 'page-home',
@@ -16,22 +17,40 @@ export class HomePage {
 
   private hasLoaded: boolean = false;
 
-  public configer: Configer;
-  public books: Book[];
+  public books: Book[] = [];
+  public account: AccountInfo;
 
   constructor(
-    public events: Events,
-    public navCtrl: NavController,
+    private events: Events,
+    private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
     private bookService: BookService,
-    private configService: ConfigService
+    private accountService: AccountService
   ) {
-    this.configer = configService.get();
 
-    this.events.subscribe('db:ready', (time) => {
-      console.log('数据加载完毕，')
-      this.bookService.SheetList().then((books) => {
-        console.log(books);
-        this.books = books;
+    this.events.subscribe(EventType.DB_READY.toString(), (time) => {
+      console.log('homepage 处理数据加载完毕事件');
+
+      this.accountService.CurrAccount().then((account) => {
+        this.account = account;
+
+        this.bookService.SheetList().then((books) => {
+          this.books = books;
+
+          if (this.books.length > 0 && this.account.config.autoUpdateBookInfo) {
+            console.log('自动获取小说更新信息');
+            let load = this.loadingCtrl.create({
+              content: '正在刷新...',
+              dismissOnPageChange: true,
+            });
+            load.present();
+            this.UpdateBookInfo().then(() => {
+              load.dismiss();
+            }).catch(() => {
+              load.dismiss();
+            });
+          }
+        });
       });
     });
   }
@@ -40,10 +59,23 @@ export class HomePage {
     this.navCtrl.push(ReaderPage, { book: book });
   }
 
-  RefreshLocalInfo(refresher) {
-    this.bookService.Refresh()
-      .then(() => {
-        refresher.complete();
-      });
+  /**
+   * 获取服务器书籍更新信息
+   * @private
+   * @returns {Promise<any>} 
+   * 
+   * @memberOf HomePage
+   */
+  private UpdateBookInfo(): Promise<any> {
+    return this.bookService.Refresh();
+  }
+
+  private RefreshBookInfo(refresher) {
+    console.log('下拉刷新启动');
+    this.UpdateBookInfo().then(() => {
+      refresher.complete();
+    }).catch(() => {
+      refresher.complete();
+    })
   }
 }
