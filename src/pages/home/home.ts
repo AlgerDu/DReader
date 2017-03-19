@@ -84,7 +84,7 @@ export class HomePage {
         ) {
           console.log('自动获取小说更新信息');
           let load = this.loadingCtrl.create({
-            content: '正在刷新...',
+            content: '自动获取书架小说更新...',
             dismissOnPageChange: true,
           });
           load.present();
