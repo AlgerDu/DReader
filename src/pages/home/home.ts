@@ -5,7 +5,6 @@ import { ReaderPage } from '../reader/reader'
 
 import { BookService } from '../../app/service/book.service';
 import { Book, Config, EventType, AccountInfo } from '../../app/model';
-import { ConfigService } from '../../app/service/config.service';
 import { AccountService } from '../../app/service/account.service';
 
 @Component({
