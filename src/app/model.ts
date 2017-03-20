@@ -55,6 +55,40 @@ export class Config {
     }
 }
 
+/**
+ * 小说章节信息
+ * @export
+ * @class Chapter
+ */
+export class Chapter {
+    uid: string;
+    name: string;
+    contentUid: string;
+    vNo: Number;
+    vIndex: number;
+}
+
+/**
+ * 卷信息
+ * @export
+ * @class Volume
+ */
+export class Volume {
+    vNo: number;
+    name: string;
+    chapters: Chapter[];
+}
+
+/**
+ * 小说目录信息
+ * @export
+ * @class Catalog
+ */
+export class Catalog {
+    bookUid: string;
+    volumes: Volume[];
+}
+
 export class Book {
     uid: string;
     name: string;
@@ -64,14 +98,7 @@ export class Book {
     readingChapter: Chapter;
     updateCount: number;
     coverUrl: string;
-}
-
-export class Chapter {
-    uid: string;
-    name: string;
-    text: string;
-    vNo: Number;
-    vIndex: number;
+    refreshTime: Date;
 }
 
 /**
