@@ -65,11 +65,13 @@ export class SQLiteDbService {
             this.db.executeSql('DROP TABLE IF EXISTS Book', []);
             this.db.executeSql('DROP TABLE IF EXISTS Volume', []);
             this.db.executeSql('DROP TABLE IF EXISTS Chapter', []);
+            this.db.executeSql('DROP TABLE IF EXISTS Content', []);
             this.db.executeSql('CREATE TABLE Account ( uid char(36) PRIMARY KEY, name TEXT not null, local BOOLEAN not null, login BOOLEAN not null, config TEXT not null)', []);
             this.db.executeSql('CREATE TABLE BookShelf ( accUid char(36), bookUid char(36), readPct INT not null, updateCount INT not null, PRIMARY KEY(accUid,bookUid))', []);
             this.db.executeSql('CREATE TABLE Book ( uid char(36) PRIMARY KEY, name TEXT not null, author TEXT not null)', []);
             this.db.executeSql('CREATE TABLE Volume ( bookUid char(36), vNo INT, name TEXT not null, PRIMARY KEY(bookUid,vNo))', []);
-            this.db.executeSql('CREATE TABLE Chapter ( uid char(36) PRIMARY KEY, bookUid char(36) not null, name TEXT not null, txt TEXT not null, vNo INT not null, vIndex INT not null)', []);
+            this.db.executeSql('CREATE TABLE Chapter ( uid char(36) PRIMARY KEY, bookUid char(36) not null, name TEXT not null, contentUid char(36), vNo INT not null, vIndex INT not null)', []);
+            this.db.executeSql('CREATE TABLE Content ( uid char(36) PRIMARY KEY, txt TEXT not null)', []);
         }).then(() => {
             this.isReady = true;
             console.log('创建数据库成功');
