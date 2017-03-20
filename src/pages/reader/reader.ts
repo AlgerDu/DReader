@@ -4,7 +4,7 @@ import { MenuController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
 import { BookService } from '../../app/service/book.service';
-import { Book } from '../../app/model';
+import { Book, Catalog, Chapter } from '../../app/model';
 
 @Component({
   selector: 'page-reader',
@@ -13,6 +13,8 @@ import { Book } from '../../app/model';
 export class ReaderPage {
   public readerToolShow = false;
   public book: Book;
+  public catalog: Catalog;
+  public chapter: Chapter;
 
   constructor(
     public navCtrl: NavController,
@@ -36,6 +38,8 @@ export class ReaderPage {
       });
     }
     console.log('ionViewDidLoad ReaderPage');
+
+    this.catalog = this.bookService.BookCatalog(this.book);
   }
 
   public ionViewWillLeave() {
@@ -45,6 +49,18 @@ export class ReaderPage {
         elements[key].style.display = 'flex';
       });
     }
+  }
+
+  /**
+   * 加载章节的内容
+   * @param {Chapter} c 
+   * 
+   * @memberOf ReaderPage
+   */
+  public LoadChapter(c: Chapter) {
+    this.chapter = c;
+    this.ToggleReaderTool();
+    this.menuCtrl.close();
   }
 
   /**

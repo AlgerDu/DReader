@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //import { Headers, Http } from '@angular/http';
 
-import { Book, Chapter } from '../model';
+import { Book, Chapter, Catalog } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
 import { SQLiteDbService } from './sqlitedb.service';
 import { AccountService } from './account.service';
@@ -48,8 +48,48 @@ export class BookService {
     }
 
     //获取一本书的目录信息
-    Catalog(book: Book): Chapter[] {
-        return null;
+    BookCatalog(book: Book): Catalog {
+        return {
+            bookUid: 'a',
+            volumes: [
+                {
+                    vNo: 0, name: '九洲一号群', chapters: [
+                        { uid: '1', name: '第一章 黄山真君和九洲一号群', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第三章 一张丹方', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 }
+                    ]
+                },
+                {
+                    vNo: 1, name: '九洲一号群', chapters: [
+                        { uid: '1', name: '第一章 黄山真君和九洲一号群', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 }
+                    ]
+                }
+            ]
+        };
     }
 
 
