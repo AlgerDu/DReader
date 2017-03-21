@@ -15,6 +15,7 @@ export class ReaderPage {
   public book: Book;
   public catalog: Catalog;
   public chapter: Chapter;
+  public text: string = '';
 
   constructor(
     public navCtrl: NavController,
@@ -48,8 +49,12 @@ export class ReaderPage {
    */
   public LoadChapter(c: Chapter) {
     this.chapter = c;
-    //this.ToggleReaderTool();
     this.menuCtrl.close();
+
+    this.bookService.ChapterText(this.chapter).then((text) => {
+      console.log(text);
+      this.text = text;
+    })
   }
 
   /**

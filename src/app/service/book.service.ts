@@ -10,6 +10,8 @@ import { AccountService } from './account.service';
 export class BookService {
     private books: Book[];
 
+    private t: string = '';
+
     constructor(
         private plt: Platform,
         public alertCtrl: AlertController,
@@ -48,7 +50,7 @@ export class BookService {
     }
 
     //获取一本书的目录信息
-    BookCatalog(book: Book): Catalog {
+    public BookCatalog(book: Book): Catalog {
         return {
             bookUid: 'a',
             volumes: [
@@ -92,6 +94,21 @@ export class BookService {
         };
     }
 
+    /**
+     * 获取章节的内容信息
+     * @param {Chapter} chapter 
+     * @returns {Promise<string>} 
+     * 
+     * @memberOf BookService
+     */
+    public ChapterText(chapter: Chapter): Promise<string> {
+        this.t += 'sdfdfasd'
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this.t);
+            }, 3000);
+        });
+    }
 
     /**
      * 获取书架书籍的更新信息
