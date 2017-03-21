@@ -29,6 +29,7 @@ page-reader {
         position: absolute;
     }
     .reader .reader-context {
+        z-index: 100;
         padding: 0px 15px 0px 15px;
     }
     .reader .reader-context .reader-context-h {

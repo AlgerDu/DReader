@@ -1,5 +1,5 @@
-<ion-content (click)="ToggleReaderTool()" style="background-color: #ffffbb">
-  <div class="reader">
+<ion-content style="background-color: #ffffbb">
+  <div class="reader" (click)="ToggleReaderTool()">
     <div class="reader-tool" *ngIf="readerToolShow">
       <div class="reader-tool-top">
         <button ion-button clear color="light" (click)="navCtrl.pop()">
@@ -12,8 +12,8 @@
           </button>
       </div>
     </div>
-    <div class="reader-context" *ngIf="chapter != null">
-      <div class="reader-context-h">
+    <div class="reader-context">
+      <div class="reader-context-h" *ngIf="chapter != null">
         <p>{{ chapter.name }}</p>
       </div>
       <div class="reader-context-text">
@@ -57,5 +57,5 @@
       </ion-item-group>
     </ion-content>
   </ion-menu>
-  <ion-nav #content></ion-nav>
+  <ion-nav #content style="display: none"></ion-nav>
 </ion-content>

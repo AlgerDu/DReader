@@ -31,24 +31,13 @@ export class ReaderPage {
   }
 
   public ionViewDidLoad() {
-    let elements = document.querySelectorAll(".tabbar");
-    if (elements != null) {
-      Object.keys(elements).map((key) => {
-        elements[key].style.display = 'none';
-      });
-    }
     console.log('ionViewDidLoad ReaderPage');
-
+    this.HideTab();
     this.catalog = this.bookService.BookCatalog(this.book);
   }
 
   public ionViewWillLeave() {
-    let elements = document.querySelectorAll(".tabbar");
-    if (elements != null) {
-      Object.keys(elements).map((key) => {
-        elements[key].style.display = 'flex';
-      });
-    }
+    this.ShowTab();
   }
 
   /**
@@ -59,7 +48,7 @@ export class ReaderPage {
    */
   public LoadChapter(c: Chapter) {
     this.chapter = c;
-    this.ToggleReaderTool();
+    //this.ToggleReaderTool();
     this.menuCtrl.close();
   }
 
@@ -69,7 +58,8 @@ export class ReaderPage {
    * @memberOf ReaderPage
    */
   public ToggleReaderTool() {
-    this.readerToolShow = !this.readerToolShow;
+    if (!this.menuCtrl.isOpen())
+      this.readerToolShow = !this.readerToolShow;
   }
 
   /**
@@ -88,5 +78,36 @@ export class ReaderPage {
         this.navCtrl.pop();
       }
     }, 1);
+  }
+
+  /**
+   * 隐藏标签页选项
+   * @private
+   * 
+   * @memberOf ReaderPage
+   */
+  private HideTab() {
+    let elements = document.querySelectorAll(".tabbar");
+    if (elements != null) {
+      Object.keys(elements).map((key) => {
+        elements[key].style.display = 'none';
+      });
+    }
+  }
+
+
+  /**
+   * 显示标签页
+   * @private
+   * 
+   * @memberOf ReaderPage
+   */
+  private ShowTab() {
+    let elements = document.querySelectorAll(".tabbar");
+    if (elements != null) {
+      Object.keys(elements).map((key) => {
+        elements[key].style.display = 'flex';
+      });
+    }
   }
 }
