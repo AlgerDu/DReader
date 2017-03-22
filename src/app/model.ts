@@ -95,7 +95,7 @@ export class Book {
     local: boolean;
     author: string;
     readPct: number;
-    readingChapter: Chapter;
+    readingChapterUid: string;
     updateCount: number;
     coverUrl: string;
     refreshTime: Date;
