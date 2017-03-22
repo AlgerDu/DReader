@@ -5,6 +5,7 @@ import { Book, Chapter, Catalog } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
 import { SQLiteDbService } from './sqlitedb.service';
 import { AccountService } from './account.service';
+import { generateUUID, IsEmptyOfNull } from '../common';
 
 @Injectable()
 export class BookService {
@@ -33,8 +34,8 @@ export class BookService {
 
         if (this.plt.is('core')) {
             let books = [
-                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
-                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
+                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3, readingChapterUid: '' },
+                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0, readingChapterUid: '' }
             ];
             this.books = books as Book[];
             return Promise.resolve(this.books);
@@ -92,6 +93,45 @@ export class BookService {
                 }
             ]
         };
+    }
+
+    /**
+     * 获取书籍的第一章
+     * @param {Book} book 
+     * @returns {Promise<Chapter>} 
+     * 
+     * @memberOf BookService
+     */
+    public ToReadChapter(book: Book): Promise<Chapter> {
+        if (this.plt.is('core')) {
+            let c = new Chapter();
+            c.uid = generateUUID();
+            c.name = '测试第一章';
+            return Promise.resolve<Chapter>(c);
+        }
+
+        if (IsEmptyOfNull(book.readingChapterUid)) {
+
+        } else {
+            return this.Chapter(book.readingChapterUid);
+        }
+    }
+
+    /**
+     * 根据 uid 加载章节信息
+     * 
+     * @param {string} uid 
+     * @returns {Promise<Chapter>} 
+     * 
+     * @memberOf BookService
+     */
+    public Chapter(uid: string): Promise<Chapter> {
+        if (this.plt.is('core')) {
+            let c = new Chapter();
+            c.uid = generateUUID();
+            c.name = '测试第 ' + uid + ' 章';
+            return Promise.resolve<Chapter>(c);
+        }
     }
 
     /**

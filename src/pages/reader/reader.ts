@@ -5,6 +5,7 @@ import { Platform } from 'ionic-angular';
 
 import { BookService } from '../../app/service/book.service';
 import { Book, Catalog, Chapter } from '../../app/model';
+import { IsEmptyOfNull } from '../../app/common';
 
 @Component({
   selector: 'page-reader',
@@ -34,6 +35,16 @@ export class ReaderPage {
   public ionViewDidLoad() {
     console.log('ionViewDidLoad ReaderPage');
     this.HideTab();
+
+    this.bookService.ToReadChapter(this.book).then((chapter) => {
+      this.chapter = chapter;
+
+      this.bookService.ChapterText(this.chapter).then((text) => {
+        console.log(text);
+        this.text = text;
+      })
+    });
+
     this.catalog = this.bookService.BookCatalog(this.book);
   }
 
