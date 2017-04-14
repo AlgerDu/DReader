@@ -14,3 +14,16 @@ export function generateUUID() {
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
 }
+
+/**
+ * 判断一个字符串为 null 或者 空字符串
+ * @export
+ * @param {string} value 
+ * @returns {boolean} 
+ */
+export function IsEmptyOfNull(value: string): boolean {
+    if (value == null || value == '')
+        return true;
+    else
+        return false;
+}

@@ -4,7 +4,8 @@ import { MenuController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
 import { BookService } from '../../app/service/book.service';
-import { Book } from '../../app/model';
+import { Book, Catalog, Chapter } from '../../app/model';
+import { IsEmptyOfNull } from '../../app/common';
 
 @Component({
   selector: 'page-reader',
@@ -13,55 +14,116 @@ import { Book } from '../../app/model';
 export class ReaderPage {
   public readerToolShow = false;
   public book: Book;
+  public catalog: Catalog;
+  public chapter: Chapter;
+  public text: string = '';
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public menuCtrl: MenuController,
-    public plt: Platform,
+    private plt: Platform,
     private bookService: BookService
   ) {
     this.book = this.navParams.get('book');
 
     this.plt.ready().then(() => {
-      this.registerBackButtonAction();//注册返回按键事件
+      this.RegisterBackButtonAction();
     });
   }
 
-  ionViewDidLoad() {
-    let elements = document.querySelectorAll(".tabbar");
-    if (elements != null) {
-      Object.keys(elements).map((key) => {
-        elements[key].style.display = 'none';
-      });
-    }
+  public ionViewDidLoad() {
     console.log('ionViewDidLoad ReaderPage');
+    this.HideTab();
+
+    this.bookService.ToReadChapter(this.book).then((chapter) => {
+      this.chapter = chapter;
+
+      this.bookService.ChapterText(this.chapter).then((text) => {
+        console.log(text);
+        this.text = text;
+      })
+    });
+
+    this.catalog = this.bookService.BookCatalog(this.book);
   }
 
-  ionViewWillLeave() {
-    let elements = document.querySelectorAll(".tabbar");
-    if (elements != null) {
-      Object.keys(elements).map((key) => {
-        elements[key].style.display = 'flex';
-      });
-    }
+  public ionViewWillLeave() {
+    this.ShowTab();
   }
 
-  //toggle 阅读器的工具栏
-  toggleReaderTool() {
-    this.readerToolShow = !this.readerToolShow;
+  /**
+   * 加载章节的内容
+   * @param {Chapter} c 
+   * 
+   * @memberOf ReaderPage
+   */
+  public LoadChapter(c: Chapter) {
+    this.chapter = c;
+    this.menuCtrl.close();
+
+    this.bookService.ChapterText(this.chapter).then((text) => {
+      console.log(text);
+      this.text = text;
+    })
   }
 
-  //注册页面的 后退按钮事件
-  registerBackButtonAction() {
+  /**
+   * 弹出或者关闭阅读器工具栏
+   * 
+   * @memberOf ReaderPage
+   */
+  public ToggleReaderTool() {
+    if (!this.menuCtrl.isOpen())
+      this.readerToolShow = !this.readerToolShow;
+  }
+
+  /**
+   * 注册后退按钮事件
+   * @private
+   * 
+   * @memberOf ReaderPage
+   */
+  private RegisterBackButtonAction() {
     this.plt.registerBackButtonAction(() => {
       if (this.readerToolShow) {
-        this.readerToolShow = !this.readerToolShow;
+        this.ToggleReaderTool();
       } else if (this.menuCtrl.isOpen()) {
         this.menuCtrl.close();
       } else {
         this.navCtrl.pop();
       }
     }, 1);
+  }
+
+  /**
+   * 隐藏标签页选项
+   * @private
+   * 
+   * @memberOf ReaderPage
+   */
+  private HideTab() {
+    let elements = document.querySelectorAll(".tabbar");
+    if (elements != null) {
+      Object.keys(elements).map((key) => {
+        elements[key].style.display = 'none';
+      });
+    }
+  }
+
+
+  /**
+   * 显示标签页
+   * @private
+   * 
+   * @memberOf ReaderPage
+   */
+  private ShowTab() {
+    let elements = document.querySelectorAll(".tabbar");
+    if (elements != null) {
+      Object.keys(elements).map((key) => {
+        elements[key].style.display = 'flex';
+      });
+    }
   }
 }

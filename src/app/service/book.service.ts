@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 //import { Headers, Http } from '@angular/http';
 
-import { Book, Chapter } from '../model';
+import { Book, Chapter, Catalog } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
 import { SQLiteDbService } from './sqlitedb.service';
 import { AccountService } from './account.service';
+import { generateUUID, IsEmptyOfNull } from '../common';
 
 @Injectable()
 export class BookService {
     private books: Book[];
+
+    private t: string = '';
 
     constructor(
         private plt: Platform,
@@ -31,8 +34,8 @@ export class BookService {
 
         if (this.plt.is('core')) {
             let books = [
-                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3 },
-                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0 }
+                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3, readingChapterUid: '' },
+                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0, readingChapterUid: '' }
             ];
             this.books = books as Book[];
             return Promise.resolve(this.books);
@@ -48,10 +51,104 @@ export class BookService {
     }
 
     //获取一本书的目录信息
-    Catalog(book: Book): Chapter[] {
-        return null;
+    public BookCatalog(book: Book): Catalog {
+        return {
+            bookUid: 'a',
+            volumes: [
+                {
+                    vNo: 0, name: '九洲一号群', chapters: [
+                        { uid: '1', name: '第一章 黄山真君和九洲一号群', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第三章 一张丹方', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 }
+                    ]
+                },
+                {
+                    vNo: 1, name: '九洲一号群', chapters: [
+                        { uid: '1', name: '第一章 黄山真君和九洲一号群', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 },
+                        { uid: '2', name: '第二章 且待本尊算上一卦', contentUid: 'c1', vNo: 0, vIndex: 1 }
+                    ]
+                }
+            ]
+        };
     }
 
+    /**
+     * 获取书籍的第一章
+     * @param {Book} book 
+     * @returns {Promise<Chapter>} 
+     * 
+     * @memberOf BookService
+     */
+    public ToReadChapter(book: Book): Promise<Chapter> {
+        if (this.plt.is('core')) {
+            let c = new Chapter();
+            c.uid = generateUUID();
+            c.name = '测试第一章';
+            return Promise.resolve<Chapter>(c);
+        }
+
+        if (IsEmptyOfNull(book.readingChapterUid)) {
+
+        } else {
+            return this.Chapter(book.readingChapterUid);
+        }
+    }
+
+    /**
+     * 根据 uid 加载章节信息
+     * 
+     * @param {string} uid 
+     * @returns {Promise<Chapter>} 
+     * 
+     * @memberOf BookService
+     */
+    public Chapter(uid: string): Promise<Chapter> {
+        if (this.plt.is('core')) {
+            let c = new Chapter();
+            c.uid = generateUUID();
+            c.name = '测试第 ' + uid + ' 章';
+            return Promise.resolve<Chapter>(c);
+        }
+    }
+
+    /**
+     * 获取章节的内容信息
+     * @param {Chapter} chapter 
+     * @returns {Promise<string>} 
+     * 
+     * @memberOf BookService
+     */
+    public ChapterText(chapter: Chapter): Promise<string> {
+        this.t += 'sdfdfasd'
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this.t);
+            }, 3000);
+        });
+    }
 
     /**
      * 获取书架书籍的更新信息
