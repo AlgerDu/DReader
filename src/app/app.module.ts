@@ -15,6 +15,7 @@ import { SQLiteDbService } from './service/sqlitedb.service';
 import { AccountService } from './service/account.service';
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { WebsiteService } from './service/website.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BrowserModule } from "@angular/platform-browser";
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     BookService,
     SQLiteDbService,
-    AccountService
+    AccountService,
+    WebsiteService
   ]
 })
 export class AppModule { }
