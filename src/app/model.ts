@@ -119,3 +119,10 @@ export enum EventType {
      */
     Account_Loadend
 }
+
+export class BookSotreNvoelInfo {
+    uid: string;
+    name: string;
+    author: string;
+    chapterCount: number;
+}
