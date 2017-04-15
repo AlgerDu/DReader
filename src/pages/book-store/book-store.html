@@ -16,15 +16,15 @@
 <ion-content padding>
 
   <ion-list *ngIf="books.length > 0">
-    <ion-item *ngFor="let book of books" (click)="ReadBook(book)">
+    <ion-item *ngFor="let book of books">
       <ion-thumbnail item-left>
         <img *ngIf="book.coverUrl == null || book.coverUrl =='' " src="../../assets/img/alt.jpg">
       </ion-thumbnail>
       <h2>{{ book.name }}</h2>
       <p class="book-author" *ngIf="book.author != null && book.author.length > 0">{{ book.author+' 著' }}</p>
       <p *ngIf="book.author == null || book.author.length == 0">{{ '未知作者' }}</p>
-      <p class="book-pct">已读 {{ book.readPct}}%</p>
-      <ion-badge item-right color='sky' *ngIf="book.updateCount > 0">{{ book.updateCount }}</ion-badge>
+
+      <p>共 {{ book.chapterCount }} 章</p>
     </ion-item>
   </ion-list>
 

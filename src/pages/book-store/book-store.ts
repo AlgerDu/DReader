@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BookSotreNvoelInfo } from '../../app/model';
+import { WebsiteService } from '../../app/service/website.service';
+import { SerachCondition } from '../../app/models/results';
 
 /*
   Generated class for the BookStore page.
@@ -16,10 +18,20 @@ export class BookStorePage {
 
   books: BookSotreNvoelInfo[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) { }
+  constructor(
+    public navCtrl: NavController
+    , public navParams: NavParams
+    , private website: WebsiteService
+  ) { }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BookStorePage');
+    this.website.BookStoreNovelList(new SerachCondition(10, 1))
+      .then((data) => {
+        console.log(data);
+        this.books = data.data;
+        console.log(this.books.length);
+        //this.books = data as BookSotreNvoelInfo[];
+      });
   }
 
 }

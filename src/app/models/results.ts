@@ -28,7 +28,7 @@ export class SearchResult<T>{
     pageIndex: number;
     recordCount: number;
     message: string;
-    Data: T[];
+    data: T[];
 
     success(): boolean {
         return this.code == 0;

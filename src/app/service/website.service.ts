@@ -19,7 +19,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class WebsiteService {
 
-    private host: string = "http://localhost:8091";
+    private host: string = "/app";
 
     constructor(private http: Http) { }
 
@@ -37,7 +37,7 @@ export class WebsiteService {
 
     private extractData(res: Response) {
         let body = res.json();
-        return body.data || {};
+        return body || { "code": 1 };
     }
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
