@@ -99,6 +99,15 @@ export class Book {
     updateCount: number;
     coverUrl: string;
     refreshTime: Date;
+
+    constructor() {
+        this.local = false;
+        this.readPct = 0;
+        this.readingChapterUid = null;
+        this.updateCount = 0;
+        this.coverUrl = "";
+        this.refreshTime = new Date();
+    }
 }
 
 /**
