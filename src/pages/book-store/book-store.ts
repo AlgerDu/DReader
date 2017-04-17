@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { BookSotreNvoelInfo } from '../../app/model';
 import { WebsiteService } from '../../app/service/website.service';
 import { SerachCondition } from '../../app/models/results';
+import { BookDetailPage } from '../book-detail/book-detail';
 
 /*
   Generated class for the BookStore page.
@@ -34,4 +35,7 @@ export class BookStorePage {
       });
   }
 
+  itemSelected(item: BookSotreNvoelInfo) {
+    this.navCtrl.push(BookDetailPage, { book: item });
+  }
 }
