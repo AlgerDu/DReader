@@ -61,6 +61,7 @@ export class BookService {
         let b = new Book();
         b.author = book.author;
         b.name = book.name;
+        b.uid = book.uid;
 
         this.books.push(b);
 
@@ -95,6 +96,7 @@ export class BookService {
         }
 
         return new Promise((resolve, reject) => {
+            console.log("书架中是否包含书籍：" + r);
             resolve(r);
         });
     }
