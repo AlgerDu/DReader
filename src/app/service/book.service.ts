@@ -84,6 +84,21 @@ export class BookService {
         console.log("从书架中移除书籍：" + book.name);
     }
 
+    public ContainBook(uid: string): Promise<boolean> {
+        let r = false;
+
+        for (let book of this.books) {
+            if (book.uid == uid) {
+                r = true;
+                break;
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            resolve(r);
+        });
+    }
+
     //获取一本书的目录信息
     public BookCatalog(book: Book): Catalog {
         return {

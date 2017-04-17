@@ -16,6 +16,9 @@ import { BookService } from '../../app/service/book.service';
 export class BookDetailPage {
   public book: BookSotreNvoelInfo;
 
+  public isFabShow: boolean = false;
+  public isBookInSheet: boolean = false;
+
   constructor(
     public navCtrl: NavController
     , public navParams: NavParams
@@ -26,13 +29,19 @@ export class BookDetailPage {
   }
 
   ionViewDidLoad() {
+    this.bookServeice.ContainBook(this.book.uid).then((data) => {
+      this.isFabShow = true;
+      this.isBookInSheet = data;
+    })
   }
 
   public AddToSheet() {
     this.bookServeice.AddBook(this.book);
+    this.isBookInSheet = true;
   }
 
   public RemoveFromSheet() {
     this.bookServeice.RemoveBook(this.book);
+    this.isBookInSheet = false;
   }
 }
