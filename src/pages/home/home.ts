@@ -44,6 +44,12 @@ export class HomePage {
     return this.bookService.Refresh();
   }
 
+  ionViewDidEnter() {
+    // this.bookService.SheetList().then((books) => {
+    //   this.books = books;
+    // });
+  }
+
   /**
    * 处理下来刷新
    * @private
