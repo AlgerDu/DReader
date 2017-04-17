@@ -17,6 +17,7 @@ import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { WebsiteService } from './service/website.service';
 import { BookStorePage } from '../pages/book-store/book-store';
+import { BookDetailPage } from '../pages/book-detail/book-detail';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { BookStorePage } from '../pages/book-store/book-store';
     ReaderPage,
     AccountPage,
     BookStorePage,
+    BookDetailPage,
     TabsPage
   ],
   imports: [
@@ -42,6 +44,7 @@ import { BookStorePage } from '../pages/book-store/book-store';
     ReaderPage,
     AccountPage,
     BookStorePage,
+    BookDetailPage,
     TabsPage
   ],
   providers: [
