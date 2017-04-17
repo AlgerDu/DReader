@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BookSotreNvoelInfo } from '../../app/model';
+import { BookService } from '../../app/service/book.service';
 
 /*
   Generated class for the BookDetail page.
@@ -18,10 +19,20 @@ export class BookDetailPage {
   constructor(
     public navCtrl: NavController
     , public navParams: NavParams
+    , private bookServeice: BookService
   ) {
     this.book = this.navParams.get('book');
+    console.log(this.book);
   }
 
   ionViewDidLoad() {
+  }
+
+  public AddToSheet() {
+    this.bookServeice.AddBook(this.book);
+  }
+
+  public RemoveFromSheet() {
+    this.bookServeice.RemoveBook(this.book);
   }
 }

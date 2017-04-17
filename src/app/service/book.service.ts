@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //import { Headers, Http } from '@angular/http';
 
-import { Book, Chapter, Catalog } from '../model';
+import { Book, Chapter, Catalog, BookSotreNvoelInfo } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
 import { SQLiteDbService } from './sqlitedb.service';
 import { AccountService } from './account.service';
@@ -48,6 +48,40 @@ export class BookService {
             this.books = data;
             return this.books;
         });
+    }
+
+
+    /**
+     * 像书架中添加一本书籍
+     * @param {BookSotreNvoelInfo} book 
+     * 
+     * @memberOf BookService
+     */
+    public AddBook(book: BookSotreNvoelInfo) {
+        let b = new Book();
+        b.author = book.author;
+        b.name = book.name;
+
+        this.books.push(b);
+
+        console.log("向书架中添加书籍：" + b.name);
+    }
+
+    public RemoveBook(book: BookSotreNvoelInfo) {
+        let index = -1;
+
+        for (let b of this.books) {
+            index++;
+            if (b.uid == book.uid) {
+                break;
+            }
+        }
+
+        if (index > -1) {
+            this.books.splice(index, 1);
+        }
+
+        console.log("从书架中移除书籍：" + book.name);
     }
 
     //获取一本书的目录信息
@@ -160,7 +194,7 @@ export class BookService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve();
-            }, 3000);
+            }, 50);
         });
     }
 }
