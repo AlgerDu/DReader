@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { SearchResult, SerachCondition, BathOpsResult } from '../models/results';
-import { BookSotreNvoelInfo, NovelLastUpdateModel, NovelUpdateModel } from '../model';
+import { SearchResult, SerachCondition, BathOpsResult, Result } from '../models/results';
+import { BookSotreNvoelInfo, NovelLastUpdateModel, NovelUpdateModel, NovelCatalogQueryModel, NovelCatalogModel, NovelChapterTextQueryModel, NovelChapterText } from '../model';
 
 
 import 'rxjs/add/operator/catch';
@@ -59,6 +59,48 @@ export class WebsiteService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(url, lastInfos, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    }
+
+
+    /**
+     * 获取小说某个章节前后的章节
+     * @param {NovelCatalogQueryModel} query 
+     * @returns {Promise<NovelCatalogModel>} 
+     * 
+     * @memberOf WebsiteService
+     */
+    public NovelCatalog(query: NovelCatalogQueryModel)
+        : Promise<Result<NovelCatalogModel>> {
+
+        let url = this.host + "/novel/catalog";
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(url, query, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    }
+
+
+    /**
+     * 获取小说某个章节内容
+     * @param {NovelChapterTextQueryModel} query 
+     * @returns {Promise<Result<NovelChapterText>>} 
+     * 
+     * @memberOf WebsiteService
+     */
+    public NovelChapterText(query: NovelChapterTextQueryModel)
+        : Promise<Result<NovelChapterText>> {
+
+        let url = this.host + "/novel/chapterText";
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(url, query, options)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

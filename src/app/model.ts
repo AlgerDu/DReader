@@ -173,3 +173,50 @@ export class NovelUpdateModel {
     updateTime: Date;
     lastChapter: NovelLastChapterModel;
 }
+
+export class NovelCatalogQueryModel {
+
+    forwardCount: number;
+    backwardCount: number;
+
+    constructor(
+        public bookUid: string
+        , public volumeNo: number
+        , public volumeIndex: number
+    ) {
+        this.forwardCount = 0;
+        this.backwardCount = 10;
+    }
+}
+
+export class NovelCatalogChapterModel {
+    uid: string;
+    contextUid: string;
+    volumeNo: number;
+    volumeIndex: number;
+    name: string;
+    publishTime: Date;
+    wordCount: number;
+    vip: boolean;
+}
+
+export class NovelCatalogVolumeModel {
+    no: number;
+    name: string;
+}
+
+export class NovelCatalogModel {
+    vs: NovelCatalogVolumeModel[];
+    cs: NovelCatalogChapterModel[];
+}
+
+export class NovelChapterTextQueryModel {
+    bookUid: string;
+    volumeNo: number;
+    volumeIndex: number;
+}
+
+export class NovelChapterText {
+    uid: string;
+    txt: string;
+}
