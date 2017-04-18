@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { SearchResult, SerachCondition } from '../models/results';
-import { BookSotreNvoelInfo } from "../model";
+import { SearchResult, SerachCondition, BathOpsResult } from '../models/results';
+import { BookSotreNvoelInfo, NovelLastUpdateModel, NovelUpdateModel } from '../model';
 
 
 import 'rxjs/add/operator/catch';
@@ -23,13 +23,42 @@ export class WebsiteService {
 
     constructor(private http: Http) { }
 
-    BookStoreNovelList(condition: SerachCondition): Promise<SearchResult<BookSotreNvoelInfo>> {
+
+    /**
+     * 从书店中获取
+     * @param {SerachCondition} condition 
+     * @returns {Promise<SearchResult<BookSotreNvoelInfo>>} 
+     * 
+     * @memberOf WebsiteService
+     */
+    public BookStoreNovelList(condition: SerachCondition): Promise<SearchResult<BookSotreNvoelInfo>> {
 
         let url = this.host + "/BookStore/Novel";
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(url, condition, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    }
+
+
+    /**
+     * 获取小说的更新信息
+     * @param {NovelLastUpdateModel[]} lastInfos 
+     * @returns {Promise<BathOpsResult<NovelUpdateMode>>} 
+     * 
+     * @memberOf WebsiteService
+     */
+    public NovelUpdate(lastInfos: NovelLastUpdateModel[])
+        : Promise<BathOpsResult<NovelUpdateModel>> {
+
+        let url = this.host + "/novel/update";
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(url, lastInfos, options)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

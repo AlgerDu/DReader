@@ -51,7 +51,7 @@ export class Config {
 
     constructor() {
         this.autoSyncReadingRecord = true;
-        this.autoUpdateBookInfo = true;
+        this.autoUpdateBookInfo = false;
     }
 }
 
@@ -134,4 +134,42 @@ export class BookSotreNvoelInfo {
     name: string;
     author: string;
     chapterCount: number;
+}
+
+
+/**
+ * 上次更新小说的信息
+ * 通过这个信息获取小说这段时间更新的章节数和内容
+ * @export
+ * @class NovelLastUpdateModel
+ */
+export class NovelLastUpdateModel {
+    bookUid: string;
+
+
+    /**
+     * 上次更新这本书的时间
+     * @type {Date}
+     * @memberOf NovelLastUpdateModel
+     */
+    updateTime: Date;
+}
+
+export class NovelLastChapterModel {
+    uid: string;
+    volumeNo: number;
+    volumeIndex: number;
+    name: string;
+}
+
+/**
+ * 某个时间点之后小说的更新的信息
+ * @export
+ * @class NovelUpdateMode
+ */
+export class NovelUpdateModel {
+    bookUid: string;
+    chapterCount: number;
+    updateTime: Date;
+    lastChapter: NovelLastChapterModel;
 }

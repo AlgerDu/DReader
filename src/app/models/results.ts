@@ -2,6 +2,18 @@ export class Result<T>{
 
 }
 
+export class BathOpsResultItem<T>{
+    success: boolean;
+    index: number;
+    message: string;
+    data: T;
+}
+
+export class BathOpsResult<T>{
+    code: number;
+    opsCount: number;
+    items: BathOpsResultItem<T>[];
+}
 
 /**
  * 查询条件
