@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //import { Headers, Http } from '@angular/http';
 
-import { Book, Chapter, Catalog } from '../model';
+import { Book, Chapter, Catalog, BookSotreNvoelInfo } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
 import { SQLiteDbService } from './sqlitedb.service';
 import { AccountService } from './account.service';
@@ -9,7 +9,7 @@ import { generateUUID, IsEmptyOfNull } from '../common';
 
 @Injectable()
 export class BookService {
-    private books: Book[];
+    private books: Book[] = [];
 
     private t: string = '';
 
@@ -33,11 +33,11 @@ export class BookService {
         }
 
         if (this.plt.is('core')) {
-            let books = [
-                { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3, readingChapterUid: '' },
-                { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0, readingChapterUid: '' }
-            ];
-            this.books = books as Book[];
+            // let books = [
+            //     { uid: 'b1', name: '修真聊天群', author: '圣骑士的传说', readPct: 90, updateCount: 3, readingChapterUid: '' },
+            //     { uid: 'b2', name: '神级英雄', author: '', readPct: 0, updateCount: 0, readingChapterUid: '' }
+            // ];
+            // this.books = books as Book[];
             return Promise.resolve(this.books);
         }
 
@@ -47,6 +47,57 @@ export class BookService {
         ).then((data) => {
             this.books = data;
             return this.books;
+        });
+    }
+
+
+    /**
+     * 像书架中添加一本书籍
+     * @param {BookSotreNvoelInfo} book 
+     * 
+     * @memberOf BookService
+     */
+    public AddBook(book: BookSotreNvoelInfo) {
+        let b = new Book();
+        b.author = book.author;
+        b.name = book.name;
+        b.uid = book.uid;
+
+        this.books.push(b);
+
+        console.log("向书架中添加书籍：" + b.name);
+    }
+
+    public RemoveBook(book: BookSotreNvoelInfo) {
+        let index = -1;
+
+        for (let b of this.books) {
+            index++;
+            if (b.uid == book.uid) {
+                break;
+            }
+        }
+
+        if (index > -1) {
+            this.books.splice(index, 1);
+        }
+
+        console.log("从书架中移除书籍：" + book.name);
+    }
+
+    public ContainBook(uid: string): Promise<boolean> {
+        let r = false;
+
+        for (let book of this.books) {
+            if (book.uid == uid) {
+                r = true;
+                break;
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            console.log("书架中是否包含书籍：" + r);
+            resolve(r);
         });
     }
 
@@ -160,7 +211,7 @@ export class BookService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve();
-            }, 3000);
+            }, 50);
         });
     }
 }
