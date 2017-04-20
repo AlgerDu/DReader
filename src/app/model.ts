@@ -64,8 +64,8 @@ export class Chapter {
     uid: string;
     name: string;
     contentUid: string;
-    vNo: Number;
-    vIndex: number;
+    volumeNo: number;
+    volumeIndex: number;
 }
 
 /**
@@ -74,19 +74,8 @@ export class Chapter {
  * @class Volume
  */
 export class Volume {
-    vNo: number;
+    no: number;
     name: string;
-    chapters: Chapter[];
-}
-
-/**
- * 小说目录信息
- * @export
- * @class Catalog
- */
-export class Catalog {
-    bookUid: string;
-    volumes: Volume[];
 }
 
 export class Book {
@@ -95,18 +84,22 @@ export class Book {
     local: boolean;
     author: string;
     readPct: number;
-    readingChapterUid: string;
     updateCount: number;
     coverUrl: string;
     refreshTime: Date;
 
+    volumes: Volume[];
+    chapters: Chapter[];
+
     constructor() {
         this.local = false;
         this.readPct = 0;
-        this.readingChapterUid = null;
         this.updateCount = 0;
         this.coverUrl = "";
         this.refreshTime = new Date();
+
+        this.volumes = [];
+        this.chapters = [];
     }
 }
 
