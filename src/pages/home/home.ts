@@ -3,9 +3,9 @@ import { NavController, Content, Events, LoadingController } from 'ionic-angular
 
 import { ReaderPage } from '../reader/reader'
 
-import { BookService } from '../../app/service/book.service';
 import { Book, Config, EventType, AccountInfo } from '../../app/model';
 import { AccountService } from '../../app/service/account.service';
+import { BookshelfService } from '../../app/service/bookshelf.service';
 
 @Component({
   selector: 'page-home',
@@ -23,7 +23,7 @@ export class HomePage {
     private events: Events,
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private bookService: BookService,
+    private bookService: BookshelfService,
     private accountService: AccountService
   ) {
     this.SubscribeAccountLoadendEvent();

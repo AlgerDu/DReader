@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-//import { Headers, Http } from '@angular/http';
 
 import { Book, Chapter, Catalog, BookSotreNvoelInfo } from '../model';
 import { AlertController, Platform } from 'ionic-angular';
@@ -8,7 +7,7 @@ import { AccountService } from './account.service';
 import { generateUUID, IsEmptyOfNull } from '../common';
 
 @Injectable()
-export class BookService {
+export class BookshelfService {
     private books: Book[] = [];
 
     private t: string = '';

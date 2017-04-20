@@ -3,9 +3,9 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MenuController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
-import { BookService } from '../../app/service/book.service';
 import { Book, Catalog, Chapter } from '../../app/model';
 import { IsEmptyOfNull } from '../../app/common';
+import { BookshelfService } from '../../app/service/bookshelf.service';
 
 @Component({
   selector: 'page-reader',
@@ -23,7 +23,7 @@ export class ReaderPage {
     public navParams: NavParams,
     public menuCtrl: MenuController,
     private plt: Platform,
-    private bookService: BookService
+    private bookService: BookshelfService
   ) {
     this.book = this.navParams.get('book');
 

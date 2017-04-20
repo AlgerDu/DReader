@@ -1,21 +1,22 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { HttpModule, JsonpModule } from '@angular/http';
+import { FormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { HttpModule, JsonpModule } from '@angular/http';
+import { SQLiteDbService } from './service/sqlitedb.service';
+import { AccountService } from './service/account.service';
+import { WebsiteService } from './service/website.service';
+import { BookshelfService } from './service/bookshelf.service';
 
 import { MyApp } from './app.component';
+
+import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { ReaderPage } from '../pages/reader/reader';
 import { AccountPage } from '../pages/account/account';
-import { TabsPage } from '../pages/tabs/tabs';
-
-import { BookService } from './service/book.service';
-import { SQLiteDbService } from './service/sqlitedb.service';
-import { AccountService } from './service/account.service';
-import { FormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
-import { WebsiteService } from './service/website.service';
 import { BookStorePage } from '../pages/book-store/book-store';
 import { BookDetailPage } from '../pages/book-detail/book-detail';
 
@@ -49,7 +50,7 @@ import { BookDetailPage } from '../pages/book-detail/book-detail';
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    BookService,
+    BookshelfService,
     SQLiteDbService,
     AccountService,
     WebsiteService
