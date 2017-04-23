@@ -39,10 +39,10 @@
   </ion-grid>
 
   <ion-fab left bottom *ngIf="isFabShow">
-    <button ion-fab mini (click)="AddToSheet()" *ngIf="!isBookInSheet">
+    <button ion-fab mini (click)="AddToShelf()" *ngIf="!isBookInSheelf">
       <ion-icon name="ios-add-outline"></ion-icon>
       </button>
-    <button ion-fab mini color="danger" (click)="RemoveFromSheet()" *ngIf="isBookInSheet">
+    <button ion-fab mini color="danger" (click)="RemoveFromShelf()" *ngIf="isBookInSheelf">
       <ion-icon name="ios-close-outline"></ion-icon>
       </button>
   </ion-fab>
