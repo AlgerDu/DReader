@@ -5,6 +5,7 @@ import { Book, Chapter, Content, NovelCatalogQueryModel, Volume } from '../model
 import { SQLiteDbService } from './sqlitedb.service';
 import { WebsiteService } from './website.service';
 import { Result } from '../models/results';
+import { Content } from 'ionic-angular';
 
 @Injectable()
 export class ReadBookService {
@@ -77,12 +78,30 @@ export class ReadBookService {
                 }
             })
             .catch(() => {
-                Promise.reject(0);
+                return Promise.reject(0);
             });
     }
 
     /**加载章节内容*/
-    public LoadChapterText(chapter: Chapter): Promise<Content> {
-        return null;
+    public LoadChapterText(book: Book, chapter: Chapter): Promise<Content> {
+        return this.websiteService.NovelChapterText({
+            bookUid: book.uid,
+            volumeNo: chapter.volumeNo,
+            volumeIndex: chapter.volumeIndex
+        })
+            .then((result): Promise<Content> => {
+                if (result.Success()) {
+                    let c = new Content();
+                    c.text = result.data.txt;
+                    c.uid = result.data.uid;
+                    return Promise.resolve(c);
+                } else {
+                    console.log("获取 " + book.name + " 的章节信息失败：" + result.message);
+                    return Promise.reject(null);
+                }
+            })
+            .catch(() => {
+                return Promise.reject(null);
+            });
     }
 }
