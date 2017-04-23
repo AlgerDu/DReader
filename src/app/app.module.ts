@@ -19,6 +19,7 @@ import { ReaderPage } from '../pages/reader/reader';
 import { AccountPage } from '../pages/account/account';
 import { BookStorePage } from '../pages/book-store/book-store';
 import { BookDetailPage } from '../pages/book-detail/book-detail';
+import { ReadBookService } from './service/readBook.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BookDetailPage } from '../pages/book-detail/book-detail';
     BookshelfService,
     SQLiteDbService,
     AccountService,
-    WebsiteService
+    WebsiteService,
+    ReadBookService
   ]
 })
 export class AppModule { }
