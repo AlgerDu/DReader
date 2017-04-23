@@ -69,7 +69,7 @@ export class Chapter {
 }
 
 /**内容信息，可能是章节内容或者像评论内容等等*/
-export class Content {
+export class dContent {
     uid: string;
     text: string;
 }
@@ -206,8 +206,8 @@ export class NovelCatalogVolumeModel {
 }
 
 export class NovelCatalogModel {
-    vs: NovelCatalogVolumeModel[];
-    cs: NovelCatalogChapterModel[];
+    // vs: NovelCatalogVolumeModel[];
+    // cs: NovelCatalogChapterModel[];
 }
 
 export class NovelChapterTextQueryModel {

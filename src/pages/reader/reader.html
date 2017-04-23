@@ -28,11 +28,11 @@
         <ion-title>目录</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content *ngIf="catalog != null">
-      <ion-item-group *ngFor="let v of catalog.volumes">
+    <ion-content>
+      <ion-item-group *ngFor="let v of book.volumes">
         <ion-item-divider color="light">{{ v.name }}</ion-item-divider>
 
-        <button ion-item *ngFor="let c of v.chapters" (click)="LoadChapter(c)">{{ c.name }}</button>
+        <button ion-item *ngFor="let c of book.chapters" (click)="LoadChapter(c)">{{ c.name }}</button>
       </ion-item-group>
     </ion-content>
   </ion-menu>

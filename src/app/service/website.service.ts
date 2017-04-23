@@ -108,6 +108,7 @@ export class WebsiteService {
 
     private extractData(res: Response) {
         let body = res.json();
+        console.log(body);
         return body || { "code": 1 };
     }
     private handleError(error: Response | any) {

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Book, Chapter, Content, NovelCatalogQueryModel, Volume } from '../model';
+import { Book, Chapter, dContent, NovelCatalogQueryModel, Volume } from '../model';
 
 import { SQLiteDbService } from './sqlitedb.service';
 import { WebsiteService } from './website.service';
 import { Result } from '../models/results';
-import { Content } from 'ionic-angular';
 
 @Injectable()
 export class ReadBookService {
@@ -46,32 +45,35 @@ export class ReadBookService {
             lastChapter = book.chapters[index - 1];
         }
 
-        let query = index > 0
+        let query = index <= 0
             ? new NovelCatalogQueryModel(book.uid, 1, 1)
             : new NovelCatalogQueryModel(book.uid, lastChapter.volumeNo, lastChapter.volumeIndex);
 
         query.backwardCount = queryCount;
 
         return this.websiteService.NovelCatalog(query)
-            .then((result) => {
-                if (result.Success()) {
-                    let data = result.data;
-                    for (let v of data.vs) {
-                        let nv = new Volume();
-                        nv.name = v.name;
-                        nv.no = v.no;
-                        book.volumes.push(nv);
-                    }
-                    for (let c of data.cs) {
-                        let nc = new Chapter();
-                        nc.name = c.name;
-                        nc.uid = c.uid;
-                        nc.volumeNo = c.volumeNo;
-                        nc.volumeIndex = c.volumeIndex;
-                        book.chapters.push(nc);
-                    }
+            .then((result): Promise<number> => {
+                console.log(result);
 
-                    return Promise.resolve(data.cs.length);
+                if (result.Success()) {
+                    // let data = result.data;
+                    // for (let v of data.vs) {
+                    //     let nv = new Volume();
+                    //     nv.name = v.name;
+                    //     nv.no = v.no;
+                    //     book.volumes.push(nv);
+                    // }
+                    // for (let c of data.cs) {
+                    //     let nc = new Chapter();
+                    //     nc.name = c.name;
+                    //     nc.uid = c.uid;
+                    //     nc.volumeNo = c.volumeNo;
+                    //     nc.volumeIndex = c.volumeIndex;
+                    //     book.chapters.push(nc);
+                    // }
+
+                    // return Promise.resolve(data.cs.length);
+                    return Promise.resolve(0);
                 } else {
                     console.log("获取 " + book.name + " 的章节信息失败：" + result.message);
                     return Promise.reject(0);
@@ -83,15 +85,15 @@ export class ReadBookService {
     }
 
     /**加载章节内容*/
-    public LoadChapterText(book: Book, chapter: Chapter): Promise<Content> {
+    public LoadChapterText(book: Book, chapter: Chapter): Promise<dContent> {
         return this.websiteService.NovelChapterText({
             bookUid: book.uid,
             volumeNo: chapter.volumeNo,
             volumeIndex: chapter.volumeIndex
         })
-            .then((result): Promise<Content> => {
+            .then((result): Promise<dContent> => {
                 if (result.Success()) {
-                    let c = new Content();
+                    let c = new dContent();
                     c.text = result.data.txt;
                     c.uid = result.data.uid;
                     return Promise.resolve(c);

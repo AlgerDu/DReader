@@ -6,6 +6,7 @@ import { Platform } from 'ionic-angular';
 import { Book, Chapter } from '../../app/model';
 import { IsEmptyOfNull } from '../../app/common';
 import { BookshelfService } from '../../app/service/bookshelf.service';
+import { ReadBookService } from '../../app/service/readBook.service';
 
 @Component({
   selector: 'page-reader',
@@ -22,7 +23,8 @@ export class ReaderPage {
     public navParams: NavParams,
     public menuCtrl: MenuController,
     private plt: Platform,
-    private bookService: BookshelfService
+    private bookService: BookshelfService,
+    private readBookService: ReadBookService
   ) {
     this.book = this.navParams.get('book');
 
@@ -32,19 +34,9 @@ export class ReaderPage {
   }
 
   public ionViewDidLoad() {
-    console.log('ionViewDidLoad ReaderPage');
     this.HideTab();
 
-    // this.bookService.ToReadChapter(this.book).then((chapter) => {
-    //   this.chapter = chapter;
-
-    //   this.bookService.ChapterText(this.chapter).then((text) => {
-    //     console.log(text);
-    //     this.text = text;
-    //   })
-    // });
-
-    // this.catalog = this.bookService.BookCatalog(this.book);
+    this.readBookService.LoadCatalog(this.book);
   }
 
   public ionViewWillLeave() {
