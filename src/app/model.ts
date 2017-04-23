@@ -78,6 +78,7 @@ export class Volume {
     name: string;
 }
 
+/**运行时存储在内存中的书籍信息*/
 export class Book {
     uid: string;
     name: string;

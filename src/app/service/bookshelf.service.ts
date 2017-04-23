@@ -128,12 +128,7 @@ export class BookshelfService {
         return r;
     }
 
-    /**
-     * 获取书架书籍的更新信息
-     * @returns {Promise<void>} 
-     * 
-     * @memberOf BookService
-     */
+    /**从服务器中获取书籍中书籍的更新*/
     public Refresh(): Promise<any> {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
