@@ -5,12 +5,6 @@ import { NavController, NavParams } from 'ionic-angular';
 import { BookSotreNvoelInfo } from '../../app/model';
 import { BookshelfService } from '../../app/service/bookshelf.service';
 
-/*
-  Generated class for the BookDetail page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-book-detail',
   templateUrl: 'book-detail.html'
@@ -19,31 +13,45 @@ export class BookDetailPage {
   public book: BookSotreNvoelInfo;
 
   public isFabShow: boolean = false;
-  public isBookInSheet: boolean = false;
+  public isBookInSheelf: boolean = false;
 
   constructor(
     public navCtrl: NavController
     , public navParams: NavParams
-    , private bookServeice: BookshelfService
+    , private bookshelfServeice: BookshelfService
   ) {
     this.book = this.navParams.get('book');
-    console.log(this.book);
+    console.log("加载 " + this.book.name + " 的详情页面");
   }
 
-  ionViewDidLoad() {
-    this.bookServeice.ContainBook(this.book.uid).then((data) => {
-      this.isFabShow = true;
-      this.isBookInSheet = data;
-    })
+  /**处理页面以及激活事件*/
+  ionViewDidEnter() {
+    if (this.bookshelfServeice.ContainBook(this.book.uid)) {
+      this.isBookInSheelf = true;
+    } else {
+      this.isBookInSheelf = false;
+    }
+
+    this.isFabShow = true;
   }
 
-  public AddToSheet() {
-    this.bookServeice.AddBook(this.book);
-    this.isBookInSheet = true;
+  /**将详细信息页对应的书籍加入到书架中*/
+  public AddToShelf() {
+    this.bookshelfServeice.Add(this.book)
+      .then(() => {
+        console.log("书籍加入书架成功");
+        this.isBookInSheelf = true;
+      })
+      .catch(() => {
+        console.log("书籍加入书架失败");
+        this.isBookInSheelf = false;
+      });
   }
 
-  public RemoveFromSheet() {
-    this.bookServeice.RemoveBook(this.book);
-    this.isBookInSheet = false;
+  /**将详细信息页对应的书籍从书籍中移除*/
+  public RemoveFromShelf() {
+    this.bookshelfServeice.Remove(this.book.uid)
+      .then(() => this.isBookInSheelf = false)
+      .catch(() => this.isBookInSheelf = true);
   }
 }

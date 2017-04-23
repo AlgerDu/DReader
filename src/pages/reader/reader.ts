@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { MenuController } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
-import { Book, Catalog, Chapter } from '../../app/model';
+import { Book, Chapter } from '../../app/model';
 import { IsEmptyOfNull } from '../../app/common';
 import { BookshelfService } from '../../app/service/bookshelf.service';
 
@@ -14,7 +14,6 @@ import { BookshelfService } from '../../app/service/bookshelf.service';
 export class ReaderPage {
   public readerToolShow = false;
   public book: Book;
-  public catalog: Catalog;
   public chapter: Chapter;
   public text: string = '';
 
@@ -36,16 +35,16 @@ export class ReaderPage {
     console.log('ionViewDidLoad ReaderPage');
     this.HideTab();
 
-    this.bookService.ToReadChapter(this.book).then((chapter) => {
-      this.chapter = chapter;
+    // this.bookService.ToReadChapter(this.book).then((chapter) => {
+    //   this.chapter = chapter;
 
-      this.bookService.ChapterText(this.chapter).then((text) => {
-        console.log(text);
-        this.text = text;
-      })
-    });
+    //   this.bookService.ChapterText(this.chapter).then((text) => {
+    //     console.log(text);
+    //     this.text = text;
+    //   })
+    // });
 
-    this.catalog = this.bookService.BookCatalog(this.book);
+    // this.catalog = this.bookService.BookCatalog(this.book);
   }
 
   public ionViewWillLeave() {
@@ -62,10 +61,10 @@ export class ReaderPage {
     this.chapter = c;
     this.menuCtrl.close();
 
-    this.bookService.ChapterText(this.chapter).then((text) => {
-      console.log(text);
-      this.text = text;
-    })
+    // this.bookService.ChapterText(this.chapter).then((text) => {
+    //   console.log(text);
+    //   this.text = text;
+    // })
   }
 
   /**

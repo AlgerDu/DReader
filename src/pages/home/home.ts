@@ -23,7 +23,7 @@ export class HomePage {
     private events: Events,
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private bookService: BookshelfService,
+    private bookshelfService: BookshelfService,
     private accountService: AccountService
   ) {
     this.SubscribeAccountLoadendEvent();
@@ -33,46 +33,26 @@ export class HomePage {
     this.navCtrl.push(ReaderPage, { book: book });
   }
 
-  /**
-   * 获取服务器书籍更新信息
-   * @private
-   * @returns {Promise<any>} 
-   * 
-   * @memberOf HomePage
-   */
-  private UpdateBookInfo(): Promise<any> {
-    return this.bookService.Refresh();
+  /**获取上次更新到这次现在，书架中书籍的更新信息*/
+  private RefreshBookInfo(): Promise<void> {
+    return this.bookshelfService.Refresh();
   }
 
   ionViewDidEnter() {
-    // this.bookService.SheetList().then((books) => {
-    //   this.books = books;
-    // });
   }
 
-  /**
-   * 处理下来刷新
-   * @private
-   * @param {any} refresher 
-   * 
-   * @memberOf HomePage
-   */
-  private RefreshBookInfo(refresher) {
+  /**下来刷新*/
+  private PullDownRefresh(refresher) {
+
     console.log('下拉刷新启动');
-    this.UpdateBookInfo().then(() => {
+    this.RefreshBookInfo().then(() => {
       refresher.complete();
     }).catch(() => {
       refresher.complete();
-    })
+    });
   }
 
-  /**
-   * 订阅并且处理 Account_Loadend 事件
-   * 
-   * @private
-   * 
-   * @memberOf HomePage
-   */
+  /**订阅并且处理 Account_Loadend 事件*/
   private SubscribeAccountLoadendEvent() {
 
     this.events.subscribe(EventType.Account_Loadend.toString(), (time) => {
@@ -80,25 +60,36 @@ export class HomePage {
 
       this.account = this.accountService.CurrAccount();
 
-      this.bookService.SheetList().then((books) => {
-        this.books = books;
+      this.bookshelfService.BookList()
+        .then((books) => {
+          this.books = books;
 
-        if (this.books.length > 0
-          && !this.hasAutoUpdateBookInfo
-          && this.account.config.autoUpdateBookInfo
-        ) {
-          console.log('自动获取小说更新信息');
-          let load = this.loadingCtrl.create({
-            content: '自动获取书架小说更新...',
-            dismissOnPageChange: true,
-          });
-          load.present();
-          this.UpdateBookInfo().then(() => {
-            load.dismiss();
-            this.hasAutoUpdateBookInfo = true;
-          });
-        }
-      });
+          if (this.books.length > 0
+            && !this.hasAutoUpdateBookInfo
+            && this.account.config.autoUpdateBookInfo
+          ) {
+            console.log('自动获取小说更新信息');
+
+            let load = this.loadingCtrl.create({
+              content: '自动获取小说更新...',
+              dismissOnPageChange: true,
+            });
+
+            //打开 正在加载 的弹窗
+            load.present();
+
+            this.RefreshBookInfo()
+              .then(() => {
+                load.dismiss();
+                this.hasAutoUpdateBookInfo = true;
+              })
+              .catch(() => {
+                load.dismiss();
+
+                console.log("自动获取更新失败");
+              });
+          }
+        });
     });
   }
 }
