@@ -68,6 +68,12 @@ export class Chapter {
     volumeIndex: number;
 }
 
+/**内容信息，可能是章节内容或者像评论内容等等*/
+export class Content {
+    uid: string;
+    text: string;
+}
+
 /**
  * 卷信息
  * @export
