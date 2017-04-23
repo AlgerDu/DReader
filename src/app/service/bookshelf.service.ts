@@ -40,12 +40,13 @@ export class BookshelfService {
             [this.accountService.CurrAccount().uid]
         ).then((data) => {
             this.books = data;
+            this.isLoadFromDb = true;
             return this.books;
         });
     }
 
     /**向书架中添加一本书籍*/
-    public Add(book: BookSotreNvoelInfo) {
+    public Add(book: BookSotreNvoelInfo): Promise<void> {
         let b = new Book();
         b.author = book.author;
         b.name = book.name;
@@ -54,6 +55,8 @@ export class BookshelfService {
         this.books.push(b);
 
         console.log("向书架中添加书籍：" + b.name);
+
+        return this.AddToDb(b);
     }
 
     /**将加入书架的信息保存到数据库中*/
