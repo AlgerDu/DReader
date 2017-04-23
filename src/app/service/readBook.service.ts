@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Book, Chapter, Content, NovelCatalogQueryModel } from '../model';
+import { Book, Chapter, Content, NovelCatalogQueryModel, Volume } from '../model';
 
 import { SQLiteDbService } from './sqlitedb.service';
 import { WebsiteService } from './website.service';
+import { Result } from '../models/results';
 
 @Injectable()
 export class ReadBookService {
@@ -51,9 +52,29 @@ export class ReadBookService {
         query.backwardCount = queryCount;
 
         return this.websiteService.NovelCatalog(query)
-            .then((reault) => {
+            .then((result) => {
+                if (result.Success()) {
+                    let data = result.data;
+                    for (let v of data.vs) {
+                        let nv = new Volume();
+                        nv.name = v.name;
+                        nv.no = v.no;
+                        book.volumes.push(nv);
+                    }
+                    for (let c of data.cs) {
+                        let nc = new Chapter();
+                        nc.name = c.name;
+                        nc.uid = c.uid;
+                        nc.volumeNo = c.volumeNo;
+                        nc.volumeIndex = c.volumeIndex;
+                        book.chapters.push(nc);
+                    }
 
-                return Promise.resolve(0);
+                    return Promise.resolve(data.cs.length);
+                } else {
+                    console.log("获取 " + book.name + " 的章节信息失败：" + result.message);
+                    return Promise.reject(0);
+                }
             })
             .catch(() => {
                 Promise.reject(0);
