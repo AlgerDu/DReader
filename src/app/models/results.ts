@@ -2,10 +2,6 @@ export class Result<T>{
     code: number;
     message: string;
     data: T;
-
-    public Success(): boolean {
-        return this.code == 0;
-    }
 }
 
 export class BathOpsResultItem<T>{
