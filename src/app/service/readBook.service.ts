@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Book, Chapter, dContent, NovelCatalogQueryModel, Volume } from '../model';
+import { Book, Chapter, NovelCatalogModel, dContent, NovelCatalogQueryModel, Volume } from '../model';
 
 import { SQLiteDbService } from './sqlitedb.service';
 import { WebsiteService } from './website.service';
@@ -52,34 +52,34 @@ export class ReadBookService {
         query.backwardCount = queryCount;
 
         return this.websiteService.NovelCatalog(query)
-            .then((result): Promise<number> => {
+            .then((result) => {
                 console.log(result);
 
-                if (result.Success()) {
-                    // let data = result.data;
-                    // for (let v of data.vs) {
-                    //     let nv = new Volume();
-                    //     nv.name = v.name;
-                    //     nv.no = v.no;
-                    //     book.volumes.push(nv);
-                    // }
-                    // for (let c of data.cs) {
-                    //     let nc = new Chapter();
-                    //     nc.name = c.name;
-                    //     nc.uid = c.uid;
-                    //     nc.volumeNo = c.volumeNo;
-                    //     nc.volumeIndex = c.volumeIndex;
-                    //     book.chapters.push(nc);
-                    // }
+                if (result.code == 0) {
+                    let data = result.data;
+                    for (let v of data.vs.reverse()) {
+                        let nv = new Volume();
+                        nv.name = v.name;
+                        nv.no = v.no;
+                        book.volumes.push(nv);
+                    }
+                    for (let c of data.cs.reverse()) {
+                        let nc = new Chapter();
+                        nc.name = c.name;
+                        nc.uid = c.uid;
+                        nc.volumeNo = c.volumeNo;
+                        nc.volumeIndex = c.volumeIndex;
+                        book.chapters.push(nc);
+                    }
 
-                    // return Promise.resolve(data.cs.length);
-                    return Promise.resolve(0);
+                    return Promise.resolve(data.cs.length);
                 } else {
                     console.log("获取 " + book.name + " 的章节信息失败：" + result.message);
                     return Promise.reject(0);
                 }
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log(error);
                 return Promise.reject(0);
             });
     }
@@ -92,7 +92,7 @@ export class ReadBookService {
             volumeIndex: chapter.volumeIndex
         })
             .then((result): Promise<dContent> => {
-                if (result.Success()) {
+                if (result.code == 0) {
                     let c = new dContent();
                     c.text = result.data.txt;
                     c.uid = result.data.uid;

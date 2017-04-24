@@ -206,8 +206,8 @@ export class NovelCatalogVolumeModel {
 }
 
 export class NovelCatalogModel {
-    // vs: NovelCatalogVolumeModel[];
-    // cs: NovelCatalogChapterModel[];
+    vs: NovelCatalogVolumeModel[];
+    cs: NovelCatalogChapterModel[];
 }
 
 export class NovelChapterTextQueryModel {

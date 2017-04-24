@@ -36,6 +36,10 @@ export class ReaderPage {
   public ionViewDidLoad() {
     this.HideTab();
 
+  }
+
+  public ionViewDidEnter() {
+
     this.readBookService.LoadCatalog(this.book);
   }
 

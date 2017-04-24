@@ -72,8 +72,7 @@ export class WebsiteService {
      * 
      * @memberOf WebsiteService
      */
-    public NovelCatalog(query: NovelCatalogQueryModel)
-        : Promise<Result<NovelCatalogModel>> {
+    public NovelCatalog(query: NovelCatalogQueryModel): Promise<Result<NovelCatalogModel>> {
 
         let url = this.host + "/novel/catalog";
         let headers = new Headers({ 'Content-Type': 'application/json' });
