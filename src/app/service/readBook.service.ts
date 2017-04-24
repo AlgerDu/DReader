@@ -9,6 +9,8 @@ import { Result } from '../models/results';
 @Injectable()
 export class ReadBookService {
 
+    private loadChapterPerSize: number = 15;
+
     constructor(
         private dbService: SQLiteDbService,
         private websiteService: WebsiteService
@@ -17,12 +19,12 @@ export class ReadBookService {
     /**获取书籍的章节信息*/
     public LoadCatalog(book: Book): Promise<number> {
         if (book.chapters.length > 0) {
-            return this.LoadServerCatalog(book, 10);
+            return this.LoadServerCatalog(book, this.loadChapterPerSize);
         } else {
             return this.LoadDBCatalog(book)
                 .then((count) => {
                     if (count == 0) {
-                        return this.LoadServerCatalog(book, 10);
+                        return this.LoadServerCatalog(book, this.loadChapterPerSize);
                     } else {
                         return count;
                     }
