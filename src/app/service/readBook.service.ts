@@ -87,11 +87,11 @@ export class ReadBookService {
     }
 
     /**加载章节内容*/
-    public LoadChapterText(book: Book, chapter: Chapter): Promise<dContent> {
+    public LoadChapterContext(book: Book, vNo: number, vIndex: number): Promise<dContent> {
         return this.websiteService.NovelChapterText({
             bookUid: book.uid,
-            volumeNo: chapter.volumeNo,
-            volumeIndex: chapter.volumeIndex
+            volumeNo: vNo,
+            volumeIndex: vIndex
         })
             .then((result): Promise<dContent> => {
                 if (result.code == 0) {

@@ -16,8 +16,8 @@
       <div class="reader-context-h" *ngIf="chapter != null">
         <p>{{ chapter.name }}</p>
       </div>
-      <div class="reader-context-text">
-        {{ text }}
+      <div class="reader-context-text" *ngIf="context != null">
+        {{ context.text }}
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
 
         <button ion-item *ngFor="let c of book.GetChapter(v.no)" (click)="LoadChapter(c)">
           {{ c.name }}
-          
+
         </button>
       </ion-item-group>
     </ion-content>
