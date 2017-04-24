@@ -32,7 +32,9 @@
       <ion-item-group *ngFor="let v of book.volumes">
         <ion-item-divider color="light">{{ v.name }}</ion-item-divider>
 
-        <button ion-item *ngFor="let c of book.chapters" (click)="LoadChapter(c)">{{ c.name }}</button>
+        <button ion-item *ngFor="let c of book.GetChapter(v.no)" (click)="LoadChapter(c)">
+          {{ c.name }}
+        </button>
       </ion-item-group>
     </ion-content>
   </ion-menu>

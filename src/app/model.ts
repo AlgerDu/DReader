@@ -108,6 +108,16 @@ export class Book {
         this.volumes = [];
         this.chapters = [];
     }
+
+    public GetChapter(volumeNo: number): Chapter[] {
+        let array: Chapter[] = [];
+        for (let c of this.chapters) {
+            if (c.volumeNo == volumeNo) {
+                array.push(c);
+            }
+        }
+        return array;
+    }
 }
 
 /**
