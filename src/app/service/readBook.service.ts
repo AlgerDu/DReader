@@ -51,7 +51,8 @@ export class ReadBookService {
             ? new NovelCatalogQueryModel(book.uid, 1, 1)
             : new NovelCatalogQueryModel(book.uid, lastChapter.volumeNo, lastChapter.volumeIndex);
 
-        query.backwardCount = queryCount;
+        query.backwardCount = -1;
+        query.forwardCount = -1;
 
         return this.websiteService.NovelCatalog(query)
             .then((result) => {
