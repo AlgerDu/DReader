@@ -17,7 +17,9 @@
         <p>{{ chapter.name }}</p>
       </div>
       <div class="reader-context-text" *ngIf="context != null">
-        {{ context.text }}
+        <p *ngFor="let p of ps">
+          {{ p }}
+        </p>
       </div>
     </div>
   </div>

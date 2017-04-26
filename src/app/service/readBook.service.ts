@@ -60,13 +60,34 @@ export class ReadBookService {
 
                 if (result.code == 0) {
                     let data = result.data;
-                    for (let v of data.vs.reverse()) {
+
+                    data.vs.sort((a, b): number => {
+                        if (a.no > b.no) {
+                            return 1; // 如果是降序排序，返回-1。
+                        } else if (a.no == b.no) {
+                            return 0;
+                        } else {
+                            return -1; // 如果是降序排序，返回1。
+                        }
+                    });
+
+                    data.cs.sort((a, b): number => {
+                        if (a.volumeNo == b.volumeNo && a.volumeIndex == b.volumeIndex) {
+                            return 0;
+                        } else if (a.volumeNo == b.volumeNo) {
+                            return a.volumeIndex > b.volumeIndex ? 1 : -1;
+                        } else {
+                            return a.volumeNo > b.volumeNo ? 1 : -1;
+                        }
+                    });
+
+                    for (let v of data.vs) {
                         let nv = new Volume();
                         nv.name = v.name;
                         nv.no = v.no;
                         book.volumes.push(nv);
                     }
-                    for (let c of data.cs.reverse()) {
+                    for (let c of data.cs) {
                         let nc = new Chapter();
                         nc.name = c.name;
                         nc.uid = c.uid;

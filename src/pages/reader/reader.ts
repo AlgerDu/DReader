@@ -18,6 +18,7 @@ export class ReaderPage {
   public book: Book;
   public chapter: Chapter;
   public context: dContent;
+  public ps: string[];
 
   constructor(
     public navCtrl: NavController,
@@ -65,6 +66,7 @@ export class ReaderPage {
     this.readBookService.LoadChapterContext(this.book, c.volumeNo, c.volumeIndex)
       .then((context) => {
         this.context = context;
+        this.ps = this.context.text.split('\n');
       });
   }
 
